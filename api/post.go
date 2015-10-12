@@ -185,6 +185,7 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 			senderName := profileMap[post.UserId].Username
 
 			toEmailMap := make(map[string]bool)
+			toSmsMap := make(map[string]bool)
 
 			if channel.Type == model.CHANNEL_DIRECT {
 
@@ -204,6 +205,14 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 				}
 				if sendEmail && (otherUser.IsOffline() || otherUser.IsAway()) {
 					toEmailMap[otherUserId] = true
+				}
+
+				sendSMS := true
+				if _, ok := otherUser.NotifyProps["phone"]; ok && otherUser.NotifyProps["phone"] == "false" {
+					sendSMS = false
+				}
+				if sendSMS && (otherUser.IsOffline() || otherUser.IsAway()) {
+					toSmsMap[otherUserId] = true
 				}
 
 			} else {
@@ -280,6 +289,26 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 								toEmailMap[userId] = true
 							} else {
 								toEmailMap[userId] = false
+							}
+						}
+						for _, userId := range userIds {
+							if post.UserId == userId {
+								continue
+							}
+							sendSMS := true
+							if _, ok := profileMap[userId].NotifyProps["phone"]; ok && profileMap[userId].NotifyProps["phone"] == "false" {
+								sendSMS = false
+							}
+							if _, ok := profileMap[userId].Props["phone"]; !ok || len(profileMap[userId].Props["phone"]) == 0 {
+								if sendSMS {
+									l4g.Warn("No phone number defined for user %v. Cannot send SMS notification.", profileMap[userId].Username)
+								}
+								sendSMS = false
+							}
+							if sendSMS && (profileMap[userId].IsAway() || profileMap[userId].IsOffline()) {
+								toSmsMap[userId] = true
+							} else {
+								toSmsMap[userId] = false
 							}
 						}
 					}
@@ -395,6 +424,35 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 							}
 						}
 					}
+				}
+				for id, doSend := range toSmsMap {
+
+					if !doSend {
+						continue
+					}
+
+					// skip if inactive
+					if profileMap[id].DeleteAt > 0 {
+						continue
+					}
+
+					// siteURL,teamDisplayName, channelName, senderName
+					// message: model.ClearMentionTags(post.Message)
+					// url: teamURL + "/channels/" + channel.Name
+					phoneNumber := profileMap[id].Props["phone"]
+					username := profileMap[id].Username
+					l4g.Info("sender: %v", senderName)
+					l4g.Info("recipient : %v, %v", username, phoneNumber)
+
+					// TODO Get host from config
+					// TODO Generate request url
+					_, err := http.Get("http://localhost/123")
+					if err != nil {
+						l4g.Error("Failed to send SMS. (number: %v, user: %v)", phoneNumber, username)
+					} else {
+						l4g.Info("SMS notification sent succesfully. (number: %v, user: %v)", phoneNumber, username)
+					}
+
 				}
 			}
 		}
