@@ -458,7 +458,7 @@ export default class PostList extends React.Component {
 
         return (
             <div className='channel-intro'>
-                <h4 className='channel-intro__title'>Alueen {uiName} alku</h4>
+                <h4 className='channel-intro__title'>{uiName}-keskustelun alku</h4>
                 <p className='channel-intro__content'>
                     {createMessage}
                     {memberMessage}
