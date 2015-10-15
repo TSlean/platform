@@ -51,21 +51,6 @@ export function getChannels(force, updateLastViewed, checkVersion) {
 
         client.getChannels(
             function getChannelsSuccess(data, textStatus, xhr) {
-                // Let's not show off-topic channel
-                let channelsWithoutOffTopic = data.channels.filter((channel) => {
-                    return channel.name !== "off-topic";
-                });
-                data.channels = channelsWithoutOffTopic;
-
-                // Rename Town Square -> Päiväkirja
-                let channelsWithRenamedTownSquare = data.channels.map((channel) => {
-                    if (channel.display_name === "Town Square") {
-                        channel.display_name = "Päiväkirja";
-                    }
-                    return channel;
-                });
-                data.channels = channelsWithRenamedTownSquare;
-
                 callTracker.getChannels = 0;
 
                 if (checkVersion) {
@@ -85,6 +70,21 @@ export function getChannels(force, updateLastViewed, checkVersion) {
                 if (xhr.status === 304 || !data) {
                     return;
                 }
+
+                // Let's not show off-topic channel
+                let channelsWithoutOffTopic = data.channels.filter((channel) => {
+                    return channel.name !== "off-topic";
+                });
+                data.channels = channelsWithoutOffTopic;
+
+                // Rename Town Square -> Päiväkirja
+                let channelsWithRenamedTownSquare = data.channels.map((channel) => {
+                    if (channel.display_name === "Town Square") {
+                        channel.display_name = "Päiväkirja";
+                    }
+                    return channel;
+                });
+                data.channels = channelsWithRenamedTownSquare;
 
                 AppDispatcher.handleServerAction({
                     type: ActionTypes.RECIEVED_CHANNELS,
