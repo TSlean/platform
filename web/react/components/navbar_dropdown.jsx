@@ -174,7 +174,7 @@ export default class NavbarDropdown extends React.Component {
 
             this.state.teams.forEach((team) => {
                 if (team.name !== this.props.teamName) {
-                    teams.push(<li key={team.name}><a href={Utils.getWindowLocationOrigin() + '/' + team.name}>{'Siirry ' + team.display_name}</a></li>);
+                    teams.push(<li key={team.name}><a href={Utils.getWindowLocationOrigin() + '/' + team.name}>{'Siirry '} <strong>{team.display_name}</strong></a></li>);
                 }
             });
         }
