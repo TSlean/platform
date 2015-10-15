@@ -303,19 +303,18 @@ func LoginByEmailWithoutTeam(c *Context, w http.ResponseWriter, r *http.Request,
 		return nil
 	} else {
 		users := results.Data.(map[string]*model.User)
-
+		var lastValidUser *model.User
 		for _, user := range users {
 			if checkUserPassword(c, user, password) {
 				l4g.Debug("password matched for user %v / %v", user.Username, user.TeamId)
 				Login(c, w, r, user, deviceId)
-				return user
+				lastValidUser = user
 			} else {
 				l4g.Debug("password failed for user %v / %v", user.Username, user.TeamId)
 			}
 		}
+		return lastValidUser
 	}
-
-	return nil
 }
 
 func checkUserPassword(c *Context, user *model.User, password string) bool {
@@ -417,11 +416,36 @@ func Login(c *Context, w http.ResponseWriter, r *http.Request, user *model.User,
 		HttpOnly: true,
 	}
 
-	http.SetCookie(w, sessionCookie)
-
 	multiToken := ""
 	if originalMultiSessionCookie, err := r.Cookie(model.MULTI_SESSION_TOKEN); err == nil {
 		multiToken = originalMultiSessionCookie.Value
+	}
+
+	// We need to dig the multi session token from Set-Cookie response header
+	// so that we can add multiple new session tokens in one request.
+	// w.Header().Get("Set-Cookie") returns only the first header so we can't
+	// use that. Therefore, we need the for loop to access all Set-Cookie headers.
+	newMultiToken := ""
+	for key, values := range w.Header() {
+		if key == "Set-Cookie" {
+			for _, value := range values {
+				if strings.HasPrefix(value, model.MULTI_SESSION_TOKEN) {
+					parts := strings.Split(value, ";")
+					if len(parts) > 0 && parts[0] != ""{
+						newMultiToken = strings.Split(parts[0], model.MULTI_SESSION_TOKEN + "=")[1]
+						continue
+					}
+				}
+			}
+		}
+	}
+
+	if len(multiToken) > 0 {
+		if len(newMultiToken) > 0 {
+			multiToken += " " + newMultiToken
+		}
+	} else if len(newMultiToken) > 0 {
+		multiToken = newMultiToken
 	}
 
 	// Attempt to clean all the old tokens or duplicate tokens
@@ -452,6 +476,12 @@ func Login(c *Context, w http.ResponseWriter, r *http.Request, user *model.User,
 		HttpOnly: true,
 	}
 
+	// Delete any Set-Cookie headers that might have already been set because
+	// otherwise we end up with conflicting Set-Cookie headers that the browser
+	// can't handle
+	w.Header().Del("Set-Cookie")
+
+	http.SetCookie(w, sessionCookie)
 	http.SetCookie(w, multiSessionCookie)
 
 	c.Session = *session
