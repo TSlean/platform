@@ -58,10 +58,10 @@ export default class NewChannelModal extends React.Component {
         var channelSwitchText = '';
         switch (this.props.channelType) {
         case 'P':
-            channelTerm = 'ryhmä';
+            channelTerm = 'yksityinen keskustelu';
             channelSwitchText = (
                 <div className='modal-intro'>
-                    {'Luo uusi yksityinen rajoitettu ryhmä. '}
+                    {'Luo uusi yksityinen keskustelu. Vain kutsutut käyttäjät näkevät keskustelun. '}
                     <a
                         href='#'
                         onClick={this.props.onTypeSwitched}
@@ -75,12 +75,12 @@ export default class NewChannelModal extends React.Component {
             channelTerm = 'keskustelu';
             channelSwitchText = (
                 <div className='modal-intro'>
-                    {'Luo uusi julkinen keskustelu johon kuka vain voi liittyä. '}
+                    {'Luo uusi keskustelu johon kaikki tiimin jäsenet voivat liittyä. '}
                     <a
                         href='#'
                         onClick={this.props.onTypeSwitched}
                     >
-                        {'Luo yksityisryhmä'}
+                        {'Luo yksityinen keskustelu'}
                     </a>
                 </div>
             );

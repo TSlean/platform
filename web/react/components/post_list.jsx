@@ -442,8 +442,8 @@ export default class PostList extends React.Component {
         var uiType;
         var memberMessage;
         if (channel.type === 'P') {
-            uiType = 'yksityiryhmän';
-            memberMessage = ' Vain kutsutut jäsenet näkevät tämän yksityisryhmän.';
+            uiType = 'yksityisen keskustelun';
+            memberMessage = ' Vain kutsutut jäsenet näkevät tämän yksityisen keskustelun.';
         } else {
             uiType = 'keskustelun';
             memberMessage = ' Kuka tahansa voi liittyä tähän keskusteluun ja lukea sen viestejä.';
@@ -451,9 +451,9 @@ export default class PostList extends React.Component {
 
         var createMessage;
         if (creatorName === '') {
-            createMessage = 'Tämä on ' + uiName + '-' + uiType + ' alku, (' + utils.displayDate(channel.create_at) + ').';
+            createMessage = 'Tämä on ' + uiType + ' ' + uiName + ' alku, (' + utils.displayDate(channel.create_at) + ').';
         } else {
-            createMessage = (<span>Tämä on <strong>{uiName}</strong>-{uiType} alku, luoja: <strong>{creatorName}</strong> (<strong>{utils.displayDate(channel.create_at)})</strong></span>);
+            createMessage = (<span>Tämä on {uiType} <strong>{uiName}</strong> alku, luoja: <strong>{creatorName}</strong> (<strong>{utils.displayDate(channel.create_at)})</strong></span>);
         }
 
         return (

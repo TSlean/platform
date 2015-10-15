@@ -139,7 +139,7 @@ export default class NewChannelFlow extends React.Component {
                     channelTerm = 'keskustelu';
                 } else {
                     showGroupModal = true;
-                    channelTerm = 'ryhmä';
+                    channelTerm = 'yksityinen keskustelu';
                 }
                 break;
             case SHOW_EDIT_URL:

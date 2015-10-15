@@ -47,7 +47,7 @@ export default class DeleteChannelModal extends React.Component {
         const channel = ChannelStore.getCurrent();
         let channelType = 'keskustelu';
         if (channel && channel.type === 'P') {
-            channelType = 'yksityisryhmä';
+            channelType = 'yksityinen keskustelu';
         }
 
         return (

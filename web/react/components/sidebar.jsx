@@ -556,8 +556,8 @@ export default class Sidebar extends React.Component {
             showChannelModal = true;
         }
 
-        const createChannelTootlip = <Tooltip>{'Create new channel'}</Tooltip>;
-        const createGroupTootlip = <Tooltip>{'Create new group'}</Tooltip>;
+        const createChannelTootlip = <Tooltip>{'Luo uusi keskustelu'}</Tooltip>;
+        const createGroupTootlip = <Tooltip>{'Luo uusi yksityinen keskustelu'}</Tooltip>;
 
         return (
             <div>
@@ -625,7 +625,7 @@ export default class Sidebar extends React.Component {
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
                             <h4>
-                                {'Yksityisryhmät'}
+                                {'Yksityiset keskustelut'}
                                 <OverlayTrigger
                                     delayShow='500'
                                     placement='top'

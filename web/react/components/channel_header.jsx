@@ -130,7 +130,7 @@ export default class ChannelHeader extends React.Component {
 
         let channelTerm = 'keskustelu';
         if (channel.type === 'P') {
-            channelTerm = 'ryhmä';
+            channelTerm = 'yksityinen keskustelu';
         }
 
         let dropdownContents = [];
@@ -292,7 +292,7 @@ export default class ChannelHeader extends React.Component {
                             href='#'
                             onClick={this.handleLeave}
                         >
-                            Poistu {channelTerm === 'keskustelu' ? 'keskustelusta' : 'ryhmästä'}
+                            Poistu {channelTerm === 'keskustelu' ? 'keskustelusta' : 'yksityisestä keskustelusta'}
                         </a>
                     </li>
                 );
