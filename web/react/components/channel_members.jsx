@@ -168,7 +168,7 @@ export default class ChannelMembers extends React.Component {
                             >
                                 <span aria-hidden='true'>×</span>
                             </button>
-                            <h4 className='modal-title'>Kanavan <span className='name'>{this.state.channelName}</span> jäsenet</h4>
+                            <h4 className='modal-title'>Keskustelun <span className='name'>{this.state.channelName}</span> jäsenet</h4>
                             <a
                                 className='btn btn-md btn-primary'
                                 data-toggle='modal'

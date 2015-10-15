@@ -82,7 +82,7 @@ export default class EditChannelModal extends React.Component {
                     className='modal-title'
                     ref='title'
                 >
-                    Muokkaa kanavan <span className='name'>{this.state.title}</span> kuvausta
+                    Muokkaa <span className='name'>{this.state.title}</span>-keskustelun  kuvausta
                 </h4>
             );
         }

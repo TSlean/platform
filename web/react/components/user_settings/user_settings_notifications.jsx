@@ -662,7 +662,7 @@ export default class NotificationsTab extends React.Component {
                                 checked={this.state.channelKey}
                                 onChange={handleUpdateChannelKey}
                             >
-                                {'Koko kanavan maininnat "@channel"'}
+                                {'Koko keskustelun maininnat "@all"'}
                             </input>
                         </label>
                     </div>

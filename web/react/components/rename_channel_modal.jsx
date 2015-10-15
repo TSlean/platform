@@ -165,7 +165,7 @@ export default class RenameChannelModal extends React.Component {
                                 <span aria-hidden='true'>&times;</span>
                                 <span className='sr-only'>Sulje</span>
                             </button>
-                        <h4 className='modal-title'>Nimeä kanava uudelleen</h4>
+                        <h4 className='modal-title'>Nimeä keskustelu uudelleen</h4>
                         </div>
                         <form role='form'>
                             <div className='modal-body'>

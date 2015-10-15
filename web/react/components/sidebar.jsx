@@ -592,7 +592,7 @@ export default class Sidebar extends React.Component {
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
                             <h4>
-                                {'Kanavat'}
+                                {'Keskustelut'}
                                 <OverlayTrigger
                                     delayShow='500'
                                     placement='top'

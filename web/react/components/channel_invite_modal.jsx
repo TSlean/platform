@@ -159,7 +159,7 @@ export default class ChannelInviteModal extends React.Component {
                     >
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <h4 className='modal-title'>Lisää uusia jäseniä kanavalle <span className='name'>{this.state.channelName}</span></h4>
+                    <h4 className='modal-title'>Lisää uusia jäseniä keskusteluun <span className='name'>{this.state.channelName}</span></h4>
                   </div>
                   <div className='modal-body'>
                     {inviteError}

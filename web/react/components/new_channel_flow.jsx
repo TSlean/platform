@@ -53,7 +53,7 @@ export default class NewChannelFlow extends React.Component {
 
         channel.display_name = this.state.channelDisplayName;
         if (!channel.display_name) {
-            this.setState({serverError: 'Virheellinen kanavan nimi'});
+            this.setState({serverError: 'Virheellinen keskustelun nimi'});
             return;
         }
 
@@ -79,7 +79,7 @@ export default class NewChannelFlow extends React.Component {
                     this.setState({flowState: SHOW_EDIT_URL_THEN_COMPLETE});
                 }
                 if (err.message === 'A channel with that handle already exists') {
-                    this.setState({serverError: 'Kanava on jo olemassa kyseisellä tunnisteella'});
+                    this.setState({serverError: 'Keskustelu on jo olemassa kyseisellä tunnisteella'});
                     return;
                 }
                 this.setState({serverError: err.message});
@@ -136,7 +136,7 @@ export default class NewChannelFlow extends React.Component {
             case SHOW_NEW_CHANNEL:
                 if (this.state.channelType === 'O') {
                     showChannelModal = true;
-                    channelTerm = 'kanava';
+                    channelTerm = 'keskustelu';
                 } else {
                     showGroupModal = true;
                     channelTerm = 'ryhmä';

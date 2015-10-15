@@ -45,7 +45,7 @@ export default class DeleteChannelModal extends React.Component {
     }
     render() {
         const channel = ChannelStore.getCurrent();
-        let channelType = 'kanava';
+        let channelType = 'keskustelu';
         if (channel && channel.type === 'P') {
             channelType = 'yksityisryhmä';
         }
@@ -70,7 +70,7 @@ export default class DeleteChannelModal extends React.Component {
                             >
                                 <span aria-hidden='true'>&times;</span>
                             </button>
-                            <h4 className='modal-title'>Vahvista kanavan POISTO</h4>
+                            <h4 className='modal-title'>Vahvista keskustelun POISTO</h4>
                         </div>
                         <div className='modal-body'>
                             <p>

@@ -27,9 +27,9 @@ export default class CommandList extends React.Component {
 
         if (!channel) {
             channel = {};
-            channel.display_name = 'Kanavaa ei löytynyt';
-            channel.name = 'Kanavaa ei löytynyt';
-            channel.id = 'Kanavaa ei löytynyt';
+            channel.display_name = 'Keskustelua ei löytynyt';
+            channel.name = 'Keskustelua ei löytynyt';
+            channel.id = 'Keskustelua ei löytynyt';
         }
 
         return (

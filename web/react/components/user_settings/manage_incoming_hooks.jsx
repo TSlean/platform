@@ -115,7 +115,7 @@ export default class ManageIncomingHooks extends React.Component {
                         <strong>{'Osoite: '}</strong><span className='word-break--all'>{Utils.getWindowLocationOrigin() + '/hooks/' + hook.id}</span>
                     </div>
                     <div className='padding-top'>
-                        <strong>{'Kanava: '}</strong>{c.name}
+                        <strong>{'Keskustelu: '}</strong>{c.name}
                     </div>
                     <div className='padding-top'>
                         <a

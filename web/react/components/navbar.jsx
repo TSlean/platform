@@ -120,7 +120,7 @@ export default class Navbar extends React.Component {
                         data-title={channel.display_name}
                         data-channelid={channel.id}
                     >
-                        Aseta kanavan kuvaus...
+                        Aseta keskustelun kuvaus...
                     </a>
                 </li>
             );
@@ -148,7 +148,7 @@ export default class Navbar extends React.Component {
                             href='#'
                             onClick={this.handleLeave}
                         >
-                            Poistu kanavalta
+                            Poistu keskustelusta
                         </a>
                     </li>
                 );
@@ -182,7 +182,7 @@ export default class Navbar extends React.Component {
                             data-name={channel.name}
                             data-channelid={channel.id}
                         >
-                            Nimeä kanava uudelleen...
+                            Nimeä keskustelu uudelleen...
                         </a>
                     </li>
                 );
@@ -197,7 +197,7 @@ export default class Navbar extends React.Component {
                             data-title={channel.display_name}
                             data-channelid={channel.id}
                         >
-                            Poista kanava...
+                            Poista keskustelu...
                         </a>
                     </li>
                 );
@@ -359,7 +359,7 @@ export default class Navbar extends React.Component {
             if (channel.description.length === 0) {
                 popoverContent = React.renderToString(
                     <div>
-                        Kanavalla ei ole vielä kuvausta. <br/>
+                        Keskustelulla ei ole vielä kuvausta. <br/>
                         <a
                             href='#'
                             data-toggle='modal'

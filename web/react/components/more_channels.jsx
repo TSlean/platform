@@ -123,8 +123,8 @@ export default class MoreChannels extends React.Component {
             } else {
                 moreChannels = (
                     <div className='no-channel-message'>
-                       <p className='primary-message'>Ei enempää kanavia joihin voit liittyä</p>
-                       <p className='secondary-message'>Klikkaa 'Luo uusi kanava' luodaksesi uuden</p>
+                       <p className='primary-message'>Ei enempää keskusteluita joihin voit liittyä</p>
+                       <p className='secondary-message'>Klikkaa 'Luo uusi keskustelu' luodaksesi uuden</p>
                     </div>
                 );
             }
@@ -150,13 +150,13 @@ export default class MoreChannels extends React.Component {
                                 <span aria-hidden='true'>{'×'}</span>
                                 <span className='sr-only'>{'Sulje'}</span>
                             </button>
-                            <h4 className='modal-title'>{'Lisää kanavia'}</h4>
+                            <h4 className='modal-title'>{'Lisää keskusteluita'}</h4>
                             <button
                                 type='button'
                                 className='btn btn-primary channel-create-btn'
                                 onClick={this.handleNewChannel}
                             >
-                                {'Luo uusi kanava'}
+                                {'Luo uusi keskustelu'}
                             </button>
                             <NewChannelFlow
                                 show={this.state.showNewChannelModal}

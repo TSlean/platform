@@ -78,10 +78,10 @@ export default class RemovedFromChannelModal extends React.Component {
                                     data-dismiss='modal'
                                     aria-label='Sulje'
                                 ><span aria-hidden='true'>&times;</span></button>
-                                <h4 className='modal-title'>Poistettu kanavalta <span className='name'>{channelName}</span></h4>
+                                <h4 className='modal-title'>Poistettu keskustelusta <span className='name'>{channelName}</span></h4>
                             </div>
                             <div className='modal-body'>
-                                  <p>{remover} poisti sinut kanavalta {channelName}</p>
+                                  <p>{remover} poisti sinut keskustelusta {channelName}</p>
                             </div>
                             <div className='modal-footer'>
                                 <button

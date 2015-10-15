@@ -312,7 +312,7 @@ export default class ChannelNotifications extends React.Component {
 
             content = (
                 <SettingItemMax
-                    title='Merkitse kanava lukemattomaksi'
+                    title='Merkitse keskustelu lukemattomaksi'
                     inputs={inputs}
                     submit={this.handleSubmitMarkUnreadLevel}
                     server_error={serverError}
@@ -336,7 +336,7 @@ export default class ChannelNotifications extends React.Component {
 
             content = (
                 <SettingItemMin
-                    title='Merkitse kanava lukemattomaksi'
+                    title='Merkitse keskustelu lukemattomaksi'
                     describe={describe}
                     updateSection={handleUpdateSection}
                 />
@@ -372,7 +372,7 @@ export default class ChannelNotifications extends React.Component {
                                 <span aria-hidden='true'>&times;</span>
                                 <span className='sr-only'>Sulje</span>
                             </button>
-                            <h4 className='modal-title'>Ilmoitusasetukset kanavalle <span className='name'>{this.state.title}</span></h4>
+                            <h4 className='modal-title'>Ilmoitusasetukset keskustelulle <span className='name'>{this.state.title}</span></h4>
                         </div>
                         <div className='modal-body'>
                             <div className='settings-table'>

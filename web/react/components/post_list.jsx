@@ -375,15 +375,15 @@ export default class PostList extends React.Component {
     createDefaultIntroMessage(channel) {
         return (
             <div className='channel-intro'>
-                <h4 className='channel-intro__title'>{channel.display_name}-kanavan alku</h4>
+                <h4 className='channel-intro__title'>{channel.display_name}-keskustelun alku</h4>
                 <p className='channel-intro__content'>
-                    Tervetuloa {channel.display_name}-kanavalle!
+                    Tervetuloa {channel.display_name}-keskusteluun!
                     <br/><br/>
-                    Tämä on ensimmäinen kanava, jonka tiimin jäsenet näkevät kun
+                    Tämä on ensimmäinen keskustelu, jonka tiimin jäsenet näkevät kun
                     he kirjautuvat. Käytä sitä viesteihin, jotka haluat kaikkien näkevän.
                     <br/><br/>
-                    Luodaksesi uuden kanavan tai liittyäksesi olemassolevalle
-                    kanavalle mene vasemmalla olevaan valikkoon ja "Kanavat"-otsikon
+                    Luodaksesi uuden keskustelun tai liittyäksesi olemassolevaan
+                    keskusteluun mene vasemmalla olevaan valikkoon ja "Keskustelut"-otsikon
                     alta klikkaa "Lisää…"
                     <br/>
                 </p>
@@ -393,9 +393,9 @@ export default class PostList extends React.Component {
     createOffTopicIntroMessage(channel) {
         return (
             <div className='channel-intro'>
-                <h4 className='channel-intro__title'>{channel.display_name}-kanavan alku</h4>
+                <h4 className='channel-intro__title'>{channel.display_name}-keskustelun alku</h4>
                 <p className='channel-intro__content'>
-                    {'Tämä on kanavan ' + channel.display_name + ' alku. Tämä on tarkoitettu työhön liittymättömään keskusteluun.'}
+                    {'Tämä on keskustelun ' + channel.display_name + ' alku. Tämä on tarkoitettu työhön liittymättömään keskusteluun.'}
                     <br/>
                 </p>
                 <a
@@ -415,7 +415,7 @@ export default class PostList extends React.Component {
                     data-toggle='modal'
                     data-target='#channel_invite'
                 >
-                    <i className='fa fa-user-plus'></i>Kutsu muita tälle kanavalle
+                    <i className='fa fa-user-plus'></i>Kutsu muita tähän keskusteluun
                 </a>
             </div>
         );
@@ -445,8 +445,8 @@ export default class PostList extends React.Component {
             uiType = 'yksityiryhmän';
             memberMessage = ' Vain kutsutut jäsenet näkevät tämän yksityisryhmän.';
         } else {
-            uiType = 'kanavan';
-            memberMessage = ' Kuka tahansa voi liittyä tälle kanavalle ja lukea sen viestejä.';
+            uiType = 'keskustelun';
+            memberMessage = ' Kuka tahansa voi liittyä tähän keskusteluun ja lukea sen viestejä.';
         }
 
         var createMessage;
@@ -646,7 +646,7 @@ export default class PostList extends React.Component {
             order = this.state.postList.order;
         }
 
-        var moreMessages = <p className='beginning-messages-text'>Kanavan alku</p>;
+        var moreMessages = <p className='beginning-messages-text'>Keskustelun alku</p>;
         if (channel != null) {
             if (order.length >= this.state.numToDisplay) {
                 moreMessages = (

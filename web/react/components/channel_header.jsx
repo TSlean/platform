@@ -128,7 +128,7 @@ export default class ChannelHeader extends React.Component {
             }
         }
 
-        let channelTerm = 'kanava';
+        let channelTerm = 'keskustelu';
         if (channel.type === 'P') {
             channelTerm = 'ryhmä';
         }
@@ -149,7 +149,7 @@ export default class ChannelHeader extends React.Component {
                         data-title={channel.display_name}
                         data-channelid={channel.id}
                     >
-                        Aseta kanavan kuvaus...
+                        Aseta keskustelun kuvaus...
                     </a>
                 </li>
             );
@@ -292,7 +292,7 @@ export default class ChannelHeader extends React.Component {
                             href='#'
                             onClick={this.handleLeave}
                         >
-                            Poistu {channelTerm === 'kanava' ? 'kanavasta' : 'ryhmästä'}
+                            Poistu {channelTerm === 'keskustelu' ? 'keskustelusta' : 'ryhmästä'}
                         </a>
                     </li>
                 );

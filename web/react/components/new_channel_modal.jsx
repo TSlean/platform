@@ -66,16 +66,16 @@ export default class NewChannelModal extends React.Component {
                         href='#'
                         onClick={this.props.onTypeSwitched}
                     >
-                        {'Luo julkinen kanava'}
+                        {'Luo julkinen keskustelu'}
                     </a>
                 </div>
             );
             break;
         case 'O':
-            channelTerm = 'kanava';
+            channelTerm = 'keskustelu';
             channelSwitchText = (
                 <div className='modal-intro'>
-                    {'Luo uusi julkinen kanava johon kuka vain voi liittyä. '}
+                    {'Luo uusi julkinen keskustelu johon kuka vain voi liittyä. '}
                     <a
                         href='#'
                         onClick={this.props.onTypeSwitched}
@@ -151,7 +151,7 @@ export default class NewChannelModal extends React.Component {
                                         tabIndex='2'
                                     />
                                     <p className='input__help'>
-                                        {'Kuvaus auttaa toisia päättelemään kannattaako kanavalle liittyä.'}
+                                        {'Kuvaus auttaa toisia päättelemään kannattaako keskusteluun liittyä.'}
                                     </p>
                                     {serverError}
                                 </div>

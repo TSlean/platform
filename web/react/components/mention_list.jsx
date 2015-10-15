@@ -193,7 +193,7 @@ export default class MentionList extends React.Component {
         var channel = {};
         channel.username = 'channel';
         channel.nickname = '';
-        channel.secondary_text = 'Ilmoita jokaiselle kanavan jäsenelle';
+        channel.secondary_text = 'Ilmoita jokaiselle keskustelun jäsenelle';
         channel.id = 'channelmention';
         users.push(channel);
 
