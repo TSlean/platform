@@ -375,9 +375,9 @@ export default class PostList extends React.Component {
     createDefaultIntroMessage(channel) {
         return (
             <div className='channel-intro'>
-                <h4 className='channel-intro__title'>Kanavan {channel.display_name} alku</h4>
+                <h4 className='channel-intro__title'>{channel.display_name}-kanavan alku</h4>
                 <p className='channel-intro__content'>
-                    Tervetuloa kanavalle {channel.display_name}!
+                    Tervetuloa {channel.display_name}-kanavalle!
                     <br/><br/>
                     Tämä on ensimmäinen kanava, jonka tiimin jäsenet näkevät kun
                     he kirjautuvat. Käytä sitä viesteihin, jotka haluat kaikkien näkevän.
@@ -393,7 +393,7 @@ export default class PostList extends React.Component {
     createOffTopicIntroMessage(channel) {
         return (
             <div className='channel-intro'>
-                <h4 className='channel-intro__title'>Kanavan {channel.display_name} alku</h4>
+                <h4 className='channel-intro__title'>{channel.display_name}-kanavan alku</h4>
                 <p className='channel-intro__content'>
                     {'Tämä on kanavan ' + channel.display_name + ' alku. Tämä on tarkoitettu työhön liittymättömään keskusteluun.'}
                     <br/>
