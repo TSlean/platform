@@ -148,7 +148,8 @@
 		}
 		.header__info {
 			color: #fff;
-			padding-left: 4px;
+			@include clearfix;
+			padding-left: 2px;
 			z-index: 1;
 			position: relative;
 		}
@@ -156,7 +157,7 @@
 			display: block;
 			font-weight: 600;
 			font-size: 16px;
-			max-width: 80%;
+			max-width: 85%;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
@@ -291,11 +292,6 @@
 	display: inline-block;
 	width: 15px;
 	margin: 9px 6px 3px 0;
-	&:hover {
-		svg {
-			fill: #777;
-		}
-	}
 	a {
 		height: 100%;
 		display: block;
@@ -303,6 +299,6 @@
 	svg {
 		vertical-align: top;
 		margin-top: 8px;
-		fill: #aaa;
+		fill: inherit;
 	}
 }

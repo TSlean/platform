@@ -38,6 +38,7 @@ export default class UserSettingsIntegrationsTab extends React.Component {
             incomingHooksSection = (
                 <SettingItemMax
                     title='Incoming Webhooks'
+                    width = 'full'
                     inputs={inputs}
                     updateSection={function clearSection(e) {
                         this.updateSection('');
@@ -49,7 +50,8 @@ export default class UserSettingsIntegrationsTab extends React.Component {
             incomingHooksSection = (
                 <SettingItemMin
                     title='Incoming Webhooks'
-                    describe='Manage your incoming webhooks'
+                    width = 'full'
+                    describe='Manage your incoming webhooks (Developer feature)'
                     updateSection={function updateNameSection() {
                         this.updateSection('incoming-hooks');
                     }.bind(this)}

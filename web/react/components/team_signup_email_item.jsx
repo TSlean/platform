@@ -51,6 +51,7 @@ export default class TeamSignupEmailItem extends React.Component {
                     placeholder='Sähköpostiosoite'
                     defaultValue={this.props.email}
                     maxLength='128'
+                    spellCheck='false'
                 />
                 {emailError}
             </div>

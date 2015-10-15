@@ -149,7 +149,7 @@ export default class SignupUserComplete extends React.Component {
         // set up the email entry and hide it if an email was provided
         var yourEmailIs = '';
         if (this.state.user.email) {
-            yourEmailIs = <span>Sähköpostiosoitteesi on {this.state.user.email}. Käytä tätä sähköpostiosoitetta kirjautuaksesi {global.window.config.SiteName}-palveluun.</span>;
+            yourEmailIs = <span>Sähköpostiosoitteesi on <strong>{this.state.user.email}</strong>. Käytä tätä sähköpostiosoitetta kirjautuaksesi {global.window.config.SiteName}-palveluun..</span>;
         }
 
         var emailContainerStyle = 'margin--extra';
@@ -169,6 +169,7 @@ export default class SignupUserComplete extends React.Component {
                         placeholder=''
                         maxLength='128'
                         autoFocus={true}
+                        spellCheck='false'
                     />
                     {emailError}
                 </div>
@@ -204,9 +205,10 @@ export default class SignupUserComplete extends React.Component {
                                     className='form-control'
                                     placeholder=''
                                     maxLength='128'
+                                    spellCheck='false'
                                 />
                                 {nameError}
-                                <p className='form__hint'>Käyttäjänimen pitää alkaa kirjaimella, sisältää 3-15 merkkiä ja se voi koostua kirjaimista, numeroista sekä merkeistä '.', '-' ja '_'.</p>
+                                <span className='help-block'>Käyttäjänimen pitää alkaa kirjaimella, sisältää 3-15 merkkiä ja se voi koostua kirjaimista, numeroista sekä merkeistä '.', '-' ja '_'.</span>
                             </div>
                         </div>
                         <div className='margin--extra'>
@@ -218,6 +220,7 @@ export default class SignupUserComplete extends React.Component {
                                 className='form-control'
                                 placeholder=''
                                 maxLength='128'
+                                spellCheck='false'
                             />
                             {passwordError}
                         </div>

@@ -61,7 +61,7 @@ export default class UserSettingsGeneralTab extends React.Component {
 
         user.username = username;
 
-        this.submitUser(user);
+        this.submitUser(user, false);
     }
     submitNickname(e) {
         e.preventDefault();
@@ -76,7 +76,7 @@ export default class UserSettingsGeneralTab extends React.Component {
 
         user.nickname = nickname;
 
-        this.submitUser(user);
+        this.submitUser(user, false);
     }
     submitName(e) {
         e.preventDefault();
@@ -93,7 +93,7 @@ export default class UserSettingsGeneralTab extends React.Component {
         user.first_name = firstName;
         user.last_name = lastName;
 
-        this.submitUser(user);
+        this.submitUser(user, false);
     }
     submitEmail(e) {
         e.preventDefault();
@@ -117,7 +117,7 @@ export default class UserSettingsGeneralTab extends React.Component {
         }
 
         user.email = email;
-        this.submitUser(user);
+        this.submitUser(user, true);
     }
     submitPhone(e) {
         e.preventDefault();
@@ -137,20 +137,20 @@ export default class UserSettingsGeneralTab extends React.Component {
         user.props.phone = phone;
         this.submitUser(user);
     }
-    submitUser(user) {
+    submitUser(user, emailUpdated) {
         client.updateUser(user,
-            function updateSuccess() {
+            () => {
                 this.updateSection('');
                 AsyncClient.getMe();
-                const verificationEnabled = global.window.config.SendEmailNotifications === 'true' && global.window.config.RequireEmailVerification === 'true';
+                const verificationEnabled = global.window.config.SendEmailNotifications === 'true' && global.window.config.RequireEmailVerification === 'true' && emailUpdated;
 
                 if (verificationEnabled) {
-                    ErrorStore.storeLastError({message: 'Check your email at ' + user.email + ' to verify the address.'});
+                    ErrorStore.storeLastError({message: 'Tarkista sähköpostilaatikkosi (' + user.email + ') varmistaaksesi sähköpostiosoitteesi.'});
                     ErrorStore.emitChange();
                     this.setState({emailChangeInProgress: true});
                 }
-            }.bind(this),
-            function updateFailure(err) {
+            },
+            (err) => {
                 var state = this.setupInitialState(this.props);
                 if (err.message) {
                     state.serverError = err.message;
@@ -158,7 +158,7 @@ export default class UserSettingsGeneralTab extends React.Component {
                     state.serverError = err;
                 }
                 this.setState(state);
-            }.bind(this)
+            }
         );
     }
     submitPicture(e) {

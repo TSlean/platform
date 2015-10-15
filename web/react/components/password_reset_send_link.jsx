@@ -73,6 +73,7 @@ export default class PasswordResetSendLink extends React.Component {
                                 name='email'
                                 ref='email'
                                 placeholder='Sähköposti'
+                                spellCheck='false'
                             />
                         </div>
                         {error}

@@ -68,8 +68,9 @@ export default class TeamSignupUsernamePage extends React.Component {
                                         placeholder=''
                                         defaultValue={this.props.state.user.username}
                                         maxLength='128'
+                                        spellCheck='false'
                                     />
-                                    <div className='color--light form__hint'>Käyttäjänimen pitää alkaa kirjaimella, sisältää 3-15 merkkiä ja se voi koostua kirjaimista, numeroista sekä merkeistä '.', '-' ja '_'</div>
+                                    <span className='color--light help-block'>Käyttäjänimen pitää alkaa kirjaimella, sisältää 3-15 merkkiä ja se voi koostua kirjaimista, numeroista sekä merkeistä '.', '-' ja '_'</span>
                                 </div>
                             </div>
                             {nameError}

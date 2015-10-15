@@ -22,7 +22,7 @@ export default class EmailVerify extends React.Component {
             title = global.window.config.SiteName + ' Sähköposti on vahvistettu';
             body = <p>Sähköpostisi on vahvistettu! <a href={this.props.teamURL + '?email=' + this.props.userEmail}>Klikkaa tästä kirjautuaksesi.</a></p>;
         } else {
-            title = global.window.config.SiteName + ' Sähköpostia ei ole vahvista';
+            title = global.window.config.SiteName + ': Melkein valmista';
             body = <p>Vahvista sähköpostiosoitteesi. Tarkista sähköpostilaatikkosi.</p>;
             resend = (
                 <button

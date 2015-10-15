@@ -429,7 +429,10 @@ export function applyTheme(theme) {
 
     if (theme.sidebarTextActiveColor) {
         changeCss('.sidebar--left .nav-pills__container li.active a, .sidebar--left .nav-pills__container li.active a:hover, .sidebar--left .nav-pills__container li.active a:focus, .settings-modal .nav-pills>li.active a, .settings-modal .nav-pills>li.active a:hover, .settings-modal .nav-pills>li.active a:active', 'color:' + theme.sidebarTextActiveColor, 2);
-        changeCss('.sidebar--left .nav-pills__container li.active a .status .online--icon', 'fill:' + theme.sidebarTextActiveColor, 2);
+    }
+
+    if (theme.sidebarTextActiveBg === theme.onlineIndicator) {
+        changeCss('.sidebar--left .nav-pills__container li.active a .status .online--icon', 'fill:' + theme.sidebarTextActiveColor, 1);
     }
 
     if (theme.sidebarHeaderBg) {
@@ -476,6 +479,8 @@ export function applyTheme(theme) {
     if (theme.centerChannelColor) {
         changeCss('.app__content, .post-create__container .post-create-body .btn-file, .post-create__container .post-create-footer .msg-typing, .command-name, .modal .modal-content, .dropdown-menu, .popover, .mentions-name', 'color:' + theme.centerChannelColor, 1);
         changeCss('#post-create', 'color:' + theme.centerChannelColor, 2);
+        changeCss('.channel-header__links a', 'fill:' + changeOpacity(theme.centerChannelColor, 0.7), 1);
+        changeCss('.channel-header__links a:hover, .channel-header__links a:active', 'fill:' + theme.centerChannelColor, 2);
         changeCss('.mentions--top, .command-box', 'box-shadow:' + changeOpacity(theme.centerChannelColor, 0.2) + ' 1px -3px 12px', 3);
         changeCss('.mentions--top, .command-box', '-webkit-box-shadow:' + changeOpacity(theme.centerChannelColor, 0.2) + ' 1px -3px 12px', 2);
         changeCss('.mentions--top, .command-box', '-moz-box-shadow:' + changeOpacity(theme.centerChannelColor, 0.2) + ' 1px -3px 12px', 1);
@@ -488,6 +493,10 @@ export function applyTheme(theme) {
         changeCss('.channel-header__info>div.dropdown .header-dropdown__icon', 'color:' + changeOpacity(theme.centerChannelColor, 0.8), 1);
         changeCss('.channel-header #member_popover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8), 1);
         changeCss('.custom-textarea, .custom-textarea:focus, .preview-container .preview-div, .post-image__column .post-image__details, .sidebar--right .sidebar-right__body, .markdown__table th, .markdown__table td, .command-box, .modal .modal-content, .settings-modal .settings-table .settings-content .divider-light, .dropdown-menu, .modal .modal-header, .popover, .mentions--top .mentions-box', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2), 1);
+        changeCss('.popover.bottom>.arrow', 'border-bottom-color:' + changeOpacity(theme.centerChannelColor, 0.25), 1);
+        changeCss('.popover.right>.arrow', 'border-right-color:' + changeOpacity(theme.centerChannelColor, 0.25), 1);
+        changeCss('.popover.left>.arrow', 'border-left-color:' + changeOpacity(theme.centerChannelColor, 0.25), 1);
+        changeCss('.popover.top>.arrow', 'border-top-color:' + changeOpacity(theme.centerChannelColor, 0.25), 1);
         changeCss('.command-name, .popover .popover-title', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2), 1);
         changeCss('.dropdown-menu .divider', 'background:' + theme.centerChannelColor, 1);
         changeCss('.custom-textarea', 'color:' + theme.centerChannelColor, 1);
@@ -503,7 +512,7 @@ export function applyTheme(theme) {
         changeCss('.date-separator .separator__hr, .modal-footer, .modal .custom-textarea, .post-right__container .post.post--root hr, .search-item-container', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2), 1);
         changeCss('.modal .custom-textarea:focus', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.3), 1);
         changeCss('.channel-intro, .settings-modal .settings-table .settings-content .divider-dark, hr, .settings-modal .settings-table .settings-links', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2), 1);
-        changeCss('.post.current--user .post-body, .post.post--comment.other--root.current--user .post-comment', 'background:' + changeOpacity(theme.centerChannelColor, 0.07), 1);
+        changeCss('.post.current--user .post-body, .post.post--comment.other--root.current--user .post-comment, pre', 'background:' + changeOpacity(theme.centerChannelColor, 0.07), 1);
         changeCss('.post.current--user .post-body, .post.post--comment.other--root.current--user .post-comment, .post.post--comment.other--root .post-comment, .post.same--root .post-body, .modal .more-channel-table tbody>tr td, .member-div:first-child, .member-div, .access-history__table .access__report, .activity-log__table', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1), 2);
         changeCss('@media(max-width: 1440px){.post.same--root', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07), 2);
         changeCss('@media(max-width: 1440px){.post.same--root', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07), 2);
@@ -511,6 +520,7 @@ export function applyTheme(theme) {
         changeCss('.post:hover, .modal .more-channel-table tbody>tr:hover td, .sidebar--right .sidebar--right__header, .settings-modal .settings-table .settings-content .section-min:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.07), 1);
         changeCss('.date-separator.hovered--before:after, .date-separator.hovered--after:before, .new-separator.hovered--after:before, .new-separator.hovered--before:after', 'background:' + changeOpacity(theme.centerChannelColor, 0.07), 1);
         changeCss('.command-name:hover, .mentions-name:hover, .mentions-focus, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15), 1);
+        changeCss('code', 'background:' + changeOpacity(theme.centerChannelColor, 0.1), 1);
         changeCss('.post.current--user:hover .post-body ', 'background: none;', 1);
         changeCss('.sidebar--right', 'color:' + theme.centerChannelColor, 2);
     }

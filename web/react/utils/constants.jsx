@@ -28,6 +28,7 @@ module.exports = {
         RECIEVED_AUDITS: null,
         RECIEVED_TEAMS: null,
         RECIEVED_STATUSES: null,
+        RECIEVED_PREFERENCES: null,
 
         RECIEVED_MSG: null,
 
@@ -222,7 +223,7 @@ module.exports = {
             centerChannelBg: '#1F1F1F',
             centerChannelColor: '#DDDDDD',
             newMessageSeparator: '#CC992D',
-            linkColor: '#0177e7',
+            linkColor: '#0D93FF',
             buttonBg: '#0177e7',
             buttonColor: '#FFFFFF',
             mentionHighlightBg: '#784098',
@@ -306,5 +307,8 @@ module.exports = {
             id: 'mentionHighlightLink',
             uiName: 'Mention Highlight Link'
         }
-    ]
+    ],
+    Preferences: {
+        CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show'
+    }
 };

@@ -109,8 +109,9 @@ export default class TeamSignupPasswordPage extends React.Component {
                                         className='form-control'
                                         placeholder=''
                                         maxLength='128'
+                                        spellCheck='false'
                                     />
-                                    <div className='color--light form__hint'>Salasanan pitää olla 5-50 merkkiä pitkä. Turvallinen salasana sisältää numeroita, erikoismerkkejä sekä isoja ja pieniä kirjaimia.</div>
+                                    <span className='color--light help-block'>Salasanan pitää olla 5-50 merkkiä pitkä. Turvallinen salasana sisältää numeroita, erikoismerkkejä sekä isoja ja pieniä kirjaimia.</span>
                                 </div>
                             </div>
                             {passwordError}
