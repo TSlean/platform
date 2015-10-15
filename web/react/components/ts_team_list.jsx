@@ -18,41 +18,54 @@ export default class TsTeamList extends React.Component {
     }
 
     onTeamsChange() {
-        let teamNames = UserStore.getTeams();
+        let state = this.getStateFromStores();
 
-        if (teamNames.length === 1) {
-            let channelPath = '/' + teamNames[0];
+        if (state.teams.length === 1) {
+            let channelPath = '/' + state.teams[0].name;
             window.location = channelPath;
         }
 
-        this.setState({teamNames: teamNames});
-
+        this.setState(state);
     }
 
     getStateFromStores() {
-        let teamNames = UserStore.getTeams();
-        return {
-            teamNames: teamNames
-        };
+        let teams = [];
+        let teamsObject = UserStore.getTeams();
+        for (let teamId in teamsObject) {
+            if (teamsObject.hasOwnProperty(teamId)) {
+                teams.push(teamsObject[teamId])
+            }
+        }
+
+        teams.sort(function (teamA, teamB) {
+            let teamADisplayName = teamA.display_name.toLowerCase();
+            let teamBDisplayName = teamB.display_name.toLowerCase();
+            if (teamADisplayName < teamBDisplayName) {
+                return -1
+            } else if (teamADisplayName > teamBDisplayName) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        return {teams};
     }
 
     render() {
-        const teamNames = this.state.teamNames;
+        const teams = this.state.teams;
 
-        let teamButtons = [];
-
-        for (var i = 0; i < teamNames.length; i++) {
-            let teamName = teamNames[i];
-            let teamButton = (
-                <p key={teamName}>
-                    <a className="btn btn-primary btn-lg" href={'/' + teamName}>
-                        {teamName}
+        const teamButtons = teams.map((team) => {
+            const teamButton = (
+                <p key={team.name}>
+                    <a className="btn btn-primary btn-lg" href={'/' + team.name}>
+                        {team.display_name}
                         &nbsp;<span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     </a>
                 </p>
             );
-            teamButtons.push(teamButton);
-        }
+            return teamButton;
+        });
 
         return (
             <div>
