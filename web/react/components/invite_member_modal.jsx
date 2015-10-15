@@ -271,7 +271,7 @@ export default class InviteMemberModal extends React.Component {
                         >Lisää toinen</button>
                         <br/>
                         <br/>
-                        <span>Kutsutut ihmiset liitetään automaattisesti Town Square -kanavalle.</span>
+                        <span>Kutsutut ihmiset liitetään automaattisesti Päiväkirja-kanavalle.</span>
                     </div>
                 );
 
