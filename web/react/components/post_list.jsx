@@ -375,16 +375,19 @@ export default class PostList extends React.Component {
     createDefaultIntroMessage(channel) {
         return (
             <div className='channel-intro'>
-                <h4 className='channel-intro__title'>{channel.display_name}-keskustelun alku</h4>
+                <h4 className='channel-intro__title'>{channel.display_name}</h4>
                 <p className='channel-intro__content'>
-                    Tervetuloa {channel.display_name}-keskusteluun!
+                    Tervetuloa keskustelemaan viestivihkoon!
                     <br/><br/>
-                    Tämä on ensimmäinen keskustelu, jonka tiimin jäsenet näkevät kun
-                    he kirjautuvat. Käytä sitä viesteihin, jotka haluat kaikkien näkevän.
+                    Tässä keskustelussa tapahtuva viestintä näkyy kyseisen
+                    kotihoidon asiakkaan omaisille sekä kaikille kotihoidon
+                    työntekijöille.
                     <br/><br/>
-                    Luodaksesi uuden keskustelun tai liittyäksesi olemassolevaan
-                    keskusteluun mene vasemmalla olevaan valikkoon ja "Keskustelut"-otsikon
-                    alta klikkaa "Lisää…"
+                    Jos haluat keskustella yksityisesti jonkun henkilön kanssa,
+                    klikkaa vasemmalla olevasta valikosta henkilön nimeä
+                    "Yksityisviestit"-otsikon alta. Useamman henkilön välinen
+                    yksityinen keskustelu onnistuu vastaavasti klikkaamalla
+                    "+"-painiketta "Yksityiset keskustelut"-otsikon kohdalla.
                     <br/>
                 </p>
             </div>
@@ -451,7 +454,7 @@ export default class PostList extends React.Component {
 
         var createMessage;
         if (creatorName === '') {
-            createMessage = 'Tämä on ' + uiType + ' ' + uiName + ' alku, (' + utils.displayDate(channel.create_at) + ').';
+            createMessage = 'Tämä on ' + uiType + ' ' + uiName + ' alku. Luotu ' + utils.displayDate(channel.create_at) + '.';
         } else {
             createMessage = (<span>Tämä on {uiType} <strong>{uiName}</strong> alku, luoja: <strong>{creatorName}</strong> (<strong>{utils.displayDate(channel.create_at)})</strong></span>);
         }
