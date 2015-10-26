@@ -75,6 +75,7 @@
 		margin-bottom: 15px;
 	}
 	.channel-intro__content {
+		max-width: 45em;
 		background: #f7f7f7;
 		padding: 10px 15px;
 		@include border-radius(3px);
