@@ -12,7 +12,7 @@
         "EnableSecurityFixAlert": true
     },
     "TeamSettings": {
-        "SiteName": "Mattermost",
+        "SiteName": "Sonera Homecare",
         "MaxUsersPerTeam": 50,
         "EnableTeamCreation": true,
         "EnableUserCreation": true,
