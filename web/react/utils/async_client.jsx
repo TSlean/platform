@@ -77,10 +77,10 @@ export function getChannels(force, updateLastViewed, checkVersion) {
                 });
                 data.channels = channelsWithoutOffTopic;
 
-                // Rename Town Square -> Päiväkirja
+                // Rename Town Square -> Viestivihko
                 let channelsWithRenamedTownSquare = data.channels.map((channel) => {
                     if (channel.display_name === "Town Square") {
-                        channel.display_name = "Päiväkirja";
+                        channel.display_name = "Viestivihko";
                     }
                     return channel;
                 });
