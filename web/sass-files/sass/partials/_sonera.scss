@@ -27,3 +27,10 @@ h2 a:hover {
 .ts-head-team-logo {
     max-width: 100%;
 }
+
+@media (max-width: 768px) {
+    .mattermost-hidden-xs {
+        // Sometimes we need this because .hidden-xs is max-width: 767px
+        display: none !important;
+    }
+}

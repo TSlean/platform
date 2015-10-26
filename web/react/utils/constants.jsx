@@ -129,7 +129,7 @@ module.exports = {
             sidebarTextHoverColor: '#999999',
             sidebarTextActiveBg: '#e1e1e1',
             sidebarTextActiveColor: '#111111',
-            sidebarHeaderBg: 'rgb(83, 39, 108)',
+            sidebarHeaderBg: 'rgb(101, 45, 134)',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#7DBE00',
             mentionBj: '#2389d7',

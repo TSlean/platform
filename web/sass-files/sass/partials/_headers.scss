@@ -159,9 +159,6 @@
 			font-weight: 600;
 			font-size: 16px;
 			max-width: 85%;
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
 			text-decoration: none;
 		}
 		.team__name {
@@ -175,6 +172,9 @@
 			font-weight: 400;
 			color: #eee;
 			color: rgba(#fff, 0.8);
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
 		> .nav {
 			> li {

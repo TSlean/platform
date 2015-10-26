@@ -26,10 +26,19 @@ export default class Navbar extends React.Component {
         this.state = this.getStateFromStores();
     }
     getStateFromStores() {
+        let teams = UserStore.getTeams();
+        let teamCount = 0;
+        for(let teamId in teams) {
+            if (teams.hasOwnProperty(teamId)) {
+                teamCount++;
+            }
+        }
+
         return {
             channel: ChannelStore.getCurrent(),
             member: ChannelStore.getCurrentMember(),
-            users: ChannelStore.getCurrentExtraInfo().members
+            users: ChannelStore.getCurrentExtraInfo().members,
+            teamCount
         };
     }
     componentDidMount() {
@@ -221,8 +230,6 @@ export default class Navbar extends React.Component {
                 );
             }
 
-            let teamDisplayNameShort = this.props.teamDisplayName.split(' ')[0];
-
             return (
                 <div className='navbar-brand'>
                     <div className='dropdown'>
@@ -242,7 +249,6 @@ export default class Navbar extends React.Component {
                             <span className='heading'>{channelTitle} </span>
                             <span className='glyphicon glyphicon-chevron-down header-dropdown__icon'></span>
                         </a>
-                        <span className='pull-right heading'>{teamDisplayNameShort}</span>
                         <ul
                             className='dropdown-menu'
                             role='menu'
@@ -378,6 +384,16 @@ export default class Navbar extends React.Component {
 
         var channelMenuDropdown = this.createDropdown(channel, channelTitle, isAdmin, isDirect, popoverContent);
 
+        let backToFrontpageButton = '';
+        if (this.state.teamCount > 1) {
+            backToFrontpageButton = (
+                <a href="/" className="btn btn-primary">
+                    <span className="glyphicon glyphicon-chevron-left"></span>
+                    Takaisin asiakaslistaan
+                </a>
+            );
+        }
+
         return (
             <nav
                 className='navbar navbar-default navbar-fixed-top'
@@ -388,6 +404,10 @@ export default class Navbar extends React.Component {
                         {collapseButtons}
                         {channelMenuDropdown}
                     </div>
+                </div>
+                <div>
+                    {backToFrontpageButton}
+                    <span className='navbar__teamname pull-right'>{this.props.teamDisplayName}</span>
                 </div>
             </nav>
         );

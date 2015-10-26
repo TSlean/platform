@@ -114,13 +114,22 @@ export default class Sidebar extends React.Component {
         visibleDirectChannels.sort(this.sortChannelsByDisplayName);
         hiddenDirectChannels.sort(this.sortChannelsByDisplayName);
 
+        let teams = UserStore.getTeams();
+        let teamCount = 0;
+        for(let teamId in teams) {
+            if (teams.hasOwnProperty(teamId)) {
+                teamCount++;
+            }
+        }
+
         return {
             activeId: currentId,
             channels: ChannelStore.getAll(),
             members,
             visibleDirectChannels,
             hiddenDirectChannels,
-            currentUser: currentUser
+            currentUser: currentUser,
+            teamCount
         };
     }
 
@@ -559,6 +568,18 @@ export default class Sidebar extends React.Component {
         const createChannelTootlip = <Tooltip>{'Luo uusi keskustelu'}</Tooltip>;
         const createGroupTootlip = <Tooltip>{'Luo uusi yksityinen keskustelu'}</Tooltip>;
 
+        let backToFrontpageButton = '';
+        if (this.state.teamCount > 1) {
+            backToFrontpageButton = (
+                <div>
+                    <a href="/" className="btn btn-primary btn-block btn-no-hover-color mattermost-hidden-xs">
+                        <span className="glyphicon glyphicon-chevron-left"></span>
+                        Takaisin asiakaslistaan
+                    </a>
+                </div>
+            );
+        }
+
         return (
             <div>
                 <NewChannelFlow
@@ -571,6 +592,7 @@ export default class Sidebar extends React.Component {
                     teamName={this.props.teamName}
                     teamType={this.props.teamType}
                 />
+                {backToFrontpageButton}
                 <SearchBox />
 
                 <UnreadChannelIndicator

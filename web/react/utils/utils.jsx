@@ -537,7 +537,10 @@ export function applyTheme(theme) {
 
     if (theme.buttonBg) {
         changeCss('.btn.btn-primary', 'background:' + theme.buttonBg, 1);
-        changeCss('.btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus', 'background:' + changeColor(theme.buttonBg, -0.25), 1);
+        // Let's hardcode the Sonera hover color because the changeColor
+        // function doesn't seem to do anything sensible
+        changeCss('.btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus', 'background:#823aac', 1);
+        //changeCss('.btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus', 'background:' + changeColor(theme.buttonBg, 0.01), 1);
     }
 
     if (theme.buttonColor) {
