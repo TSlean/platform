@@ -23,6 +23,8 @@ export default class SignupTeamComplete extends React.Component {
             initialState.team = {};
             initialState.team.email = this.props.email;
             initialState.team.allowed_domains = '';
+            initialState.team.hoitosuunnitelma_text = '';
+            initialState.team.hoitosuunnitelma_files = [];
             initialState.invites = [];
             initialState.invites.push('');
             initialState.invites.push('');

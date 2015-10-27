@@ -27,6 +27,8 @@ type Team struct {
 	Type           string `json:"type"`
 	CompanyName    string `json:"company_name"`
 	AllowedDomains string `json:"allowed_domains"`
+	HoitosuunnitelmaText string `json:"hoitosuunnitelma_text"`
+	HoitosuunnitelmaFiles string `json:"hoitosuunnitelma_files"`
 }
 
 type Invites struct {
@@ -145,6 +147,14 @@ func (o *Team) IsValid() *AppError {
 
 	if len(o.AllowedDomains) > 500 {
 		return NewAppError("Team.IsValid", "Invalid allowed domains", "id="+o.Id)
+	}
+
+	if len(o.HoitosuunnitelmaText) > 4000 {
+		return NewAppError("Team.IsValid", "Too long HoitosuunnitelmaText. Maximum is 4000 characters.", "id="+o.Id)
+	}
+
+	if len(o.HoitosuunnitelmaFiles) > 4000 {
+		return NewAppError("Team.IsValid", "Too long HoitosuunnitelmaFiles. Maximum is 4000 characters.", "id="+o.Id)
 	}
 
 	return nil
