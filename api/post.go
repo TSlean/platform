@@ -166,7 +166,12 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 			} else {
 				bodyText = "You have one new mention."
 				subjectText = "New Mention"
-				channelName = channel.DisplayName
+				if channel.DisplayName == "Town Square" {
+					channelName = "Viestivihko"
+				} else {
+					channelName = channel.DisplayName
+				}
+
 			}
 		}
 
