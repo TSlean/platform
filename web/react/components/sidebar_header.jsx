@@ -28,6 +28,8 @@ export default class SidebarHeader extends React.Component {
             return null;
         }
 
+        // Let's not show the user picture. The team picture could be shown here instead.
+        /*
         if (me.last_picture_update) {
             profilePicture = (
                 <img
@@ -36,6 +38,7 @@ export default class SidebarHeader extends React.Component {
                 />
             );
         }
+        */
 
         return (
             <div className='team__header theme'>
