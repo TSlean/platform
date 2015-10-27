@@ -98,6 +98,10 @@ export default class Sidebar extends React.Component {
             channel.teammate_id = teammate.id;
             channel.status = UserStore.getStatus(teammate.id);
 
+            // Always show all direct channels (Yksityisviestit)
+            visibleDirectChannels.push(channel);
+
+            /*
             if (preferences.some((preference) => (preference.name === teammate.id && preference.value !== 'false'))) {
                 visibleDirectChannels.push(channel);
             } else if (forceShow) {
@@ -109,6 +113,7 @@ export default class Sidebar extends React.Component {
             } else {
                 hiddenDirectChannels.push(channel);
             }
+            */
         }
 
         visibleDirectChannels.sort(this.sortChannelsByDisplayName);
