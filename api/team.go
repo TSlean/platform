@@ -31,6 +31,7 @@ func InitTeam(r *mux.Router) {
 	sr.Handle("/email_teams", ApiAppHandler(emailTeams)).Methods("POST")
 	sr.Handle("/invite_members", ApiUserRequired(inviteMembers)).Methods("POST")
 	sr.Handle("/update_name", ApiUserRequired(updateTeamDisplayName)).Methods("POST")
+	sr.Handle("/update_hoitosuunnitelma_text", ApiUserRequired(updateHoitosuunnitelmaText)).Methods("POST")
 	sr.Handle("/me", ApiUserRequired(getMyTeam)).Methods("GET")
 	// These should be moved to the global admain console
 	sr.Handle("/import_team", ApiUserRequired(importTeam)).Methods("POST")
@@ -575,6 +576,38 @@ func updateTeamDisplayName(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	if result := <-Srv.Store.Team().UpdateDisplayName(new_name, c.Session.TeamId); result.Err != nil {
+		c.Err = result.Err
+		return
+	}
+
+	w.Write([]byte(model.MapToJson(props)))
+}
+
+func updateHoitosuunnitelmaText(c *Context, w http.ResponseWriter, r *http.Request) {
+
+	props := model.MapFromJson(r.Body)
+
+	new_hoitosuunnitelma_text := props["new_hoitosuunnitelma_text"]
+
+	teamId := props["team_id"]
+	if len(teamId) > 0 && len(teamId) != 26 {
+		c.SetInvalidParam("updateHoitosuunnitelmaText", "team_id")
+		return
+	} else if len(teamId) == 0 {
+		teamId = c.Session.TeamId
+	}
+
+	if !c.HasPermissionsToTeam(teamId, "updateHoitosuunnitelmaText") {
+		return
+	}
+
+	if !c.IsTeamAdmin() {
+		c.Err = model.NewAppError("updateHoitosuunnitelmaText", "You do not have the appropriate permissions", "userId="+c.Session.UserId)
+		c.Err.StatusCode = http.StatusForbidden
+		return
+	}
+
+	if result := <-Srv.Store.Team().UpdateHoitosuunnitelmaText(new_hoitosuunnitelma_text, c.Session.TeamId); result.Err != nil {
 		c.Err = result.Err
 		return
 	}

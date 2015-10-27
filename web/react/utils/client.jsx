@@ -465,6 +465,23 @@ export function updateTeamDisplayName(data, success, error) {
     track('api', 'api_teams_update_name');
 }
 
+export function updateTeamHoitosuunnitelmaText(data, success, error) {
+    $.ajax({
+        url: '/api/v1/teams/update_hoitosuunnitelma_text',
+        dataType: 'json',
+        contentType: 'application/json',
+        type: 'POST',
+        data: JSON.stringify(data),
+        success,
+        error: function onError(xhr, status, err) {
+            var e = handleError('updateTeamHoitosuunnitelmaText', xhr, status, err);
+            error(e);
+        }
+    });
+
+    track('api', 'api_teams_update_hoitosuunnitelma_text');
+}
+
 export function signupTeam(email, success, error) {
     $.ajax({
         url: '/api/v1/teams/signup',

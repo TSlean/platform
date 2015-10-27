@@ -34,6 +34,7 @@ module.exports = {
 
         CLICK_TEAM: null,
         RECIEVED_TEAM: null,
+        UPDATED_TEAM: null,
 
         RECIEVED_CONFIG: null,
         RECIEVED_LOGS: null,

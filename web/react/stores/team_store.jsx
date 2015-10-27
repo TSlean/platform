@@ -116,6 +116,11 @@ TeamStore.dispatchToken = AppDispatcher.register(function registry(payload) {
         TeamStore.emitChange();
         break;
 
+    case ActionTypes.UPDATED_TEAM:
+        TeamStore.storeTeam(action.team);
+        TeamStore.emitChange();
+        break;
+
     default:
     }
 });

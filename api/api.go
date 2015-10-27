@@ -6,7 +6,7 @@ package api
 import (
 	"bytes"
 	l4g "code.google.com/p/log4go"
-	"github.com/mattermost/platform/model"
+	//"github.com/mattermost/platform/model"
 	"github.com/mattermost/platform/utils"
 	"html/template"
 	"net/http"
@@ -56,12 +56,14 @@ func InitApi() {
 }
 
 func HandleEtag(etag string, w http.ResponseWriter, r *http.Request) bool {
+	// Just skip caching for now. Need to set UpdateAt date for objects properly to fix the etag checking.
+	/*
 	if et := r.Header.Get(model.HEADER_ETAG_CLIENT); len(etag) > 0 {
 		if et == etag {
 			w.WriteHeader(http.StatusNotModified)
 			return true
 		}
 	}
-
+	*/
 	return false
 }

@@ -142,6 +142,26 @@ func (s SqlTeamStore) UpdateDisplayName(name string, teamId string) StoreChannel
 	return storeChannel
 }
 
+func (s SqlTeamStore) UpdateHoitosuunnitelmaText(hoitosuunnitelmaText string, teamId string) StoreChannel {
+
+	storeChannel := make(StoreChannel)
+
+	go func() {
+		result := StoreResult{}
+
+		if _, err := s.GetMaster().Exec("UPDATE Teams SET HoitosuunnitelmaText = :HoitosuunnitelmaText WHERE Id = :Id", map[string]interface{}{"HoitosuunnitelmaText": hoitosuunnitelmaText, "Id": teamId}); err != nil {
+			result.Err = model.NewAppError("SqlTeamStore.UpdateHoitosuunnitelmaText", "We couldn't update the hoitosuunnitelma text", "team_id="+teamId)
+		} else {
+			result.Data = teamId
+		}
+
+		storeChannel <- result
+		close(storeChannel)
+	}()
+
+	return storeChannel
+}
+
 func (s SqlTeamStore) Get(id string) StoreChannel {
 	storeChannel := make(StoreChannel)
 
