@@ -18,6 +18,8 @@ const Utils = require('../utils/utils.jsx');
 const Tooltip = ReactBootstrap.Tooltip;
 const OverlayTrigger = ReactBootstrap.OverlayTrigger;
 
+const HoitosuunnitelmaModal = require('./hoitosuunnitelma_modal.jsx');
+
 export default class Sidebar extends React.Component {
     constructor(props) {
         super(props);
@@ -34,12 +36,15 @@ export default class Sidebar extends React.Component {
         this.updateUnreadIndicators = this.updateUnreadIndicators.bind(this);
         this.handleLeaveDirectChannel = this.handleLeaveDirectChannel.bind(this);
         this.createChannelElement = this.createChannelElement.bind(this);
+        this.hoitosuunnitelma = this.hoitosuunnitelma.bind(this);
 
         this.isLeaving = new Map();
 
         const state = this.getStateFromStores();
         state.modal = '';
         state.loadingDMChannel = -1;
+
+        state.showHoitosuunnitelmaModal = false;
 
         this.state = state;
     }
@@ -512,6 +517,32 @@ export default class Sidebar extends React.Component {
             </li>
         );
     }
+
+    hoitosuunnitelma() {
+        let showHoitosuunnitelmaModal = () => {
+            this.setState({showHoitosuunnitelmaModal: true});
+        };
+        let hideHoitosuunnitelmaModal = () => {
+            this.setState({showHoitosuunnitelmaModal: false});
+        };
+
+        return (
+            <div>
+                <ul className='nav nav-pills nav-stacked'>
+                    <li onClick={showHoitosuunnitelmaModal}>
+                        <h4>
+                            {'Hoitosuunnitelma'}
+                        </h4>
+                    </li>
+                </ul>
+                <HoitosuunnitelmaModal
+                    show={this.state.showHoitosuunnitelmaModal}
+                    onModalDismissed={hideHoitosuunnitelmaModal}
+                ></HoitosuunnitelmaModal>
+            </div>
+        );
+    }
+
     render() {
         this.badgesActive = false;
 
@@ -616,6 +647,7 @@ export default class Sidebar extends React.Component {
                     className='nav-pills__container'
                     onScroll={this.onScroll}
                 >
+                    {this.hoitosuunnitelma()}
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
                             <h4>
