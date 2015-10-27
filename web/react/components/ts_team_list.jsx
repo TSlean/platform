@@ -69,7 +69,7 @@ export default class TsTeamList extends React.Component {
 
         return (
             <div>
-                <h3>Valitse tiimi:</h3>
+                <h3>Valitse asiakas:</h3>
                 <div>
                     {teamButtons}
                 </div>
