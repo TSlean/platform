@@ -15,7 +15,7 @@
 .app__content {
 	height: 100%;
 	padding-top: 50px;
-	margin-left: 220px;
+	margin-left: $left-sidebar-width;
 	position: relative;
 	background: #fff;
 	.channel__wrap & {
