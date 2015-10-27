@@ -123,8 +123,8 @@ module.exports = {
         default: {
             type: 'TeliaSonera',
             sidebarBg: 'rgb(246, 246, 246)',
-            sidebarText: '#999999',
-            sidebarUnreadText: '#333333',
+            sidebarText: '#333333',
+            sidebarUnreadText: '#111111',
             sidebarTextHoverBg: '#e6f2fa',
             sidebarTextHoverColor: '#999999',
             sidebarTextActiveBg: '#e1e1e1',
