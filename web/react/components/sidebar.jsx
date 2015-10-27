@@ -671,7 +671,7 @@ export default class Sidebar extends React.Component {
                         {directMessageMore}
                     </ul>
                 </div>
-                <div className='sidebar-bottom'>{'Kirjautunut käyttäjä: ' + this.state.currentUser.username}</div>
+                <div className='sidebar-bottom'>{'Kirjautunut käyttäjä: '} <strong>{this.state.currentUser.username}</strong></div>
             </div>
         );
     }
