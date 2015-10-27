@@ -47,7 +47,7 @@ export default class HoitosuunnitelmaModal extends React.Component {
     }
 
     save() {
-        let hoitosuunnitelmaText = this.refs.textInput.getDOMNode().value
+        let hoitosuunnitelmaText = this.refs.textInput.getDOMNode().value;
         let data = {};
         data.new_hoitosuunnitelma_text = hoitosuunnitelmaText;
 
@@ -73,7 +73,12 @@ export default class HoitosuunnitelmaModal extends React.Component {
     }
 
     render() {
-        let hoitosuunnitelmaTextRaw = this.state.team.hoitosuunnitelma_text || '';
+        let hoitosuunnitelmaTextRaw;
+        if (this.state.team && this.state.team.hoitosuunnitelma_text) {
+            hoitosuunnitelmaTextRaw = this.state.team.hoitosuunnitelma_text;
+        } else {
+            hoitosuunnitelmaTextRaw = '';
+        }
 
         let text = '';
         if (this.state.edit) {
