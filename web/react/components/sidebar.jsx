@@ -689,6 +689,7 @@ export default class Sidebar extends React.Component {
                                 className='nav-more'
                                 data-target='#more_channels'
                                 data-channeltype='O'
+                                style={{fontSize: '15px'}}
                             >
                                 {'Lisää...'}
                             </a>
