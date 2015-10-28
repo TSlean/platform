@@ -83,7 +83,6 @@ export default class Sidebar extends React.Component {
 
             let forceShow = false;
             let channel = ChannelStore.getByName(channelName);
-
             if (channel) {
                 const member = members[channel.id];
                 const msgCount = channel.total_msg_count - member.msg_count;
@@ -99,9 +98,16 @@ export default class Sidebar extends React.Component {
                 channel.type = 'D';
             }
 
+            let isNurse = teammate.roles.lastIndexOf('nurse') !== -1;
+            let usernameColor = '#062366';
+            if (isNurse) {
+                usernameColor = '#066619';
+            }
+
             channel.display_name = teammate.username;
             channel.teammate_id = teammate.id;
             channel.status = UserStore.getStatus(teammate.id);
+            channel.color = usernameColor;
 
             // Always show all direct channels (Yksityisviestit)
             visibleDirectChannels.push(channel);
@@ -498,6 +504,11 @@ export default class Sidebar extends React.Component {
             rowClass += ' has-close';
         }
 
+        let channelNameColor = 'inherit';
+        if (channel.color) {
+            channelNameColor = channel.color;
+        }
+
         return (
             <li
                 key={channel.name}
@@ -510,7 +521,9 @@ export default class Sidebar extends React.Component {
                     onClick={handleClick}
                 >
                     {status}
-                    {channel.display_name}
+                    <span style={{color: channelNameColor}}>
+                        {channel.display_name}
+                    </span>
                     {badge}
                     {closeButton}
                 </a>
