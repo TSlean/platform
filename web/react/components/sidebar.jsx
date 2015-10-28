@@ -571,7 +571,8 @@ export default class Sidebar extends React.Component {
         const privateChannelItems = privateChannels.map(this.createChannelElement);
 
         const directMessageItems = this.state.visibleDirectChannels.map((channel, index, arr) => {
-            return this.createChannelElement(channel, index, arr, this.handleLeaveDirectChannel);
+            //return this.createChannelElement(channel, index, arr, this.handleLeaveDirectChannel);
+            return this.createChannelElement(channel, index, arr);
         });
 
         // update the favicon to show if there are any notifications
