@@ -1132,6 +1132,8 @@ func updateRoles(c *Context, w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	l4g.Info("New role for user \"%v\": \"%v\"", user_id, new_roles)
+
 	options := utils.SanitizeOptions
 	options["passwordupdate"] = false
 	ruser.Sanitize(options)

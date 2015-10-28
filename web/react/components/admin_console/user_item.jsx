@@ -9,6 +9,7 @@ export default class UserItem extends React.Component {
         super(props);
 
         this.handleMakeMember = this.handleMakeMember.bind(this);
+        this.handleMakeNurse = this.handleMakeNurse.bind(this);
         this.handleMakeActive = this.handleMakeActive.bind(this);
         this.handleMakeNotActive = this.handleMakeNotActive.bind(this);
         this.handleMakeAdmin = this.handleMakeAdmin.bind(this);
@@ -23,6 +24,23 @@ export default class UserItem extends React.Component {
         const data = {
             user_id: this.props.user.id,
             new_roles: ''
+        };
+
+        Client.updateRoles(data,
+            () => {
+                this.props.refreshProfiles();
+            },
+            (err) => {
+                this.setState({serverError: err.message});
+            }
+        );
+    }
+
+    handleMakeNurse(e) {
+        e.preventDefault();
+        const data = {
+            user_id: this.props.user.id,
+            new_roles: 'nurse'
         };
 
         Client.updateRoles(data,
@@ -121,15 +139,18 @@ export default class UserItem extends React.Component {
         }
 
         const email = user.email;
-        let showMakeMember = user.roles === 'admin' || user.roles === 'system_admin';
-        let showMakeAdmin = user.roles === '' || user.roles === 'system_admin';
-        let showMakeSystemAdmin = user.roles === '' || user.roles === 'admin';
+
+        let showMakeMember = user.roles !== '';
+        let showMakeNurse = user.roles.lastIndexOf('nurse') === -1;
+        let showMakeAdmin = user.roles.lastIndexOf('admin') === -1 || user.roles === 'system_admin';
+        let showMakeSystemAdmin = user.roles.lastIndexOf('system_admin') === -1;
         let showMakeActive = false;
-        let showMakeNotActive = user.roles !== 'system_admin';
+        let showMakeNotActive = user.roles.lastIndexOf('system_admin') === -1;
 
         if (user.delete_at > 0) {
             currentRoles = 'Inactive';
             showMakeMember = false;
+            showMakeNurse = false;
             showMakeAdmin = false;
             showMakeSystemAdmin = false;
             showMakeActive = true;
@@ -176,6 +197,21 @@ export default class UserItem extends React.Component {
                         onClick={this.handleMakeMember}
                     >
                         {'Make Member'}
+                    </a>
+                </li>
+            );
+        }
+
+        let makeNurse = null;
+        if (showMakeNurse) {
+            makeNurse = (
+                <li role='presentation'>
+                    <a
+                        role='menuitem'
+                        href='#'
+                        onClick={this.handleMakeNurse}
+                    >
+                        {'Make Nurse'}
                     </a>
                 </li>
             );
@@ -240,6 +276,7 @@ export default class UserItem extends React.Component {
                     >
                         {makeAdmin}
                         {makeMember}
+                        {makeNurse}
                         {makeActive}
                         {makeNotActive}
                         {makeSystemAdmin}
