@@ -177,14 +177,24 @@ export default class Post extends React.Component {
             );
         }
 
+        let postBackgroundColor = 'transparent';
+        let isNurse = userProfile.roles.lastIndexOf('nurse') !== -1;
+        if (isNurse) {
+            postBackgroundColor = '#DCF5E1';
+        }
+
         return (
             <div>
                 <div
                     id={'post_' + post.id}
                     className={'post ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss}
+                    style={{backgroundColor: postBackgroundColor}}
+
                 >
                     {profilePic}
-                    <div className='post__content'>
+                    <div
+                        className='post__content'
+                        >
                         <PostHeader
                             ref='header'
                             post={post}

@@ -53,13 +53,28 @@ export default class UserProfile extends React.Component {
         }
     }
     render() {
+
+        let isNurse = this.state.profile.roles.lastIndexOf('nurse') !== -1;
+        let nurseIndicator = '';
+        if (isNurse) {
+            nurseIndicator = (
+                <span className='nurse-indicator'> (hoitaja)</span>
+            );
+        }
+
+        let usernameColor = '#062366';
+
+        if (isNurse) {
+            usernameColor = '#066619';
+        }
+
         var name = this.state.profile.username;
         if (this.props.overwriteName) {
             name = this.props.overwriteName;
         }
 
         if (this.props.disablePopover) {
-            return <div>{name}</div>;
+            return <div style={{color: usernameColor}}>{name}{nurseIndicator}</div>;
         }
 
         var dataContent = '<img class="user-popover__image" src="/api/v1/users/' + this.state.profile.id + '/image?time=' + this.state.profile.update_at + '" height="128" width="128" />';
@@ -77,7 +92,7 @@ export default class UserProfile extends React.Component {
                 data-content={dataContent}
                 data-original-title={this.state.profile.username}
             >
-                {name}
+                <span style={{color: usernameColor}}>{name}{nurseIndicator}</span>
             </div>
         );
     }
