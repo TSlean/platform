@@ -17,6 +17,7 @@ func InitChannel(r *mux.Router) {
 
 	sr := r.PathPrefix("/channels").Subrouter()
 	sr.Handle("/", ApiUserRequiredActivity(getChannels, false)).Methods("GET")
+	sr.Handle("/by_email", ApiUserRequiredActivity(getChannelsByEmail, false)).Methods("GET")
 	sr.Handle("/more", ApiUserRequired(getMoreChannels)).Methods("GET")
 	sr.Handle("/counts", ApiUserRequiredActivity(getChannelCounts, false)).Methods("GET")
 	sr.Handle("/create", ApiUserRequired(createChannel)).Methods("POST")
@@ -289,6 +290,28 @@ func getChannels(c *Context, w http.ResponseWriter, r *http.Request) {
 		c.Err = result.Err
 		return
 	} else if HandleEtag(result.Data.(*model.ChannelList).Etag(), w, r) {
+		return
+	} else {
+		data := result.Data.(*model.ChannelList)
+		w.Header().Set(model.HEADER_ETAG_SERVER, data.Etag())
+		w.Write([]byte(data.ToJson()))
+	}
+}
+
+func getChannelsByEmail(c *Context, w http.ResponseWriter, r *http.Request) {
+	email := r.URL.Query().Get("email")
+
+	if result := <-Srv.Store.Channel().GetChannelsByEmail(email); result.Err != nil {
+		if result.Err.Message == "No channels were found" {
+			// lets make sure the user is valid
+			if result := <-Srv.Store.User().Get(c.Session.UserId); result.Err != nil {
+				c.Err = result.Err
+				c.RemoveSessionCookie(w, r)
+				l4g.Error("Error in getting users profile for id=%v forcing logout", c.Session.UserId)
+				return
+			}
+		}
+		c.Err = result.Err
 		return
 	} else {
 		data := result.Data.(*model.ChannelList)

@@ -738,6 +738,23 @@ export function getChannels(success, error) {
     });
 }
 
+export function getChannelsByEmail(email, success, error) {
+    $.ajax({
+        cache: false,
+        url: '/api/v1/channels/by_email',
+        dataType: 'json',
+        type: 'GET',
+        data: {email: email},
+        success,
+        error: function onError(xhr, status, err) {
+            var e = handleError('getChannel', xhr, status, err);
+            error(e);
+        }
+    });
+
+    track('api', 'api_channel_get');
+}
+
 export function getChannel(id, success, error) {
     $.ajax({
         cache: false,

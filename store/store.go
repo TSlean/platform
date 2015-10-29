@@ -60,6 +60,7 @@ type ChannelStore interface {
 	Delete(channelId string, time int64) StoreChannel
 	GetByName(team_id string, domain string) StoreChannel
 	GetChannels(teamId string, userId string) StoreChannel
+	GetChannelsByEmail(email string) StoreChannel
 	GetMoreChannels(teamId string, userId string) StoreChannel
 	GetChannelCounts(teamId string, userId string) StoreChannel
 	GetForExport(teamId string) StoreChannel

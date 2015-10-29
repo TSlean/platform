@@ -294,6 +294,38 @@ func (s SqlChannelStore) GetChannels(teamId string, userId string) StoreChannel 
 	return storeChannel
 }
 
+func (s SqlChannelStore) GetChannelsByEmail(email string) StoreChannel {
+	storeChannel := make(StoreChannel)
+
+	go func() {
+		result := StoreResult{}
+
+		var data []channelWithMember
+		_, err := s.GetReplica().Select(&data, "SELECT * FROM Channels, ChannelMembers WHERE Id = ChannelId AND UserId IN (SELECT Users.Id FROM Users WHERE Email = :Email) AND DeleteAt = 0", map[string]interface{}{"Email": email})
+		if err != nil {
+			result.Err = model.NewAppError("SqlChannelStore.GetChannelsByEmail", "We couldn't get the channels", "email="+email+", err="+err.Error())
+		} else {
+			channels := &model.ChannelList{make([]*model.Channel, len(data)), make(map[string]*model.ChannelMember)}
+			for i := range data {
+				v := data[i]
+				channels.Channels[i] = &v.Channel
+				channels.Members[v.Channel.Id] = &v.ChannelMember
+			}
+
+			if len(channels.Channels) == 0 {
+				result.Err = model.NewAppError("SqlChannelStore.GetChannelsByEmail", "No channels were found", "email="+email+", err="+err.Error())
+			} else {
+				result.Data = channels
+			}
+		}
+
+		storeChannel <- result
+		close(storeChannel)
+	}()
+
+	return storeChannel
+}
+
 func (s SqlChannelStore) GetMoreChannels(teamId string, userId string) StoreChannel {
 	storeChannel := make(StoreChannel)
 
