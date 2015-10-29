@@ -98,7 +98,7 @@ export default class Sidebar extends React.Component {
                 channel.type = 'D';
             }
 
-            let isNurse = teammate.roles.lastIndexOf('nurse') !== -1;
+            let isNurse = teammate.roles && teammate.roles.lastIndexOf('nurse') !== -1;
             let usernameColor = '#062366';
             if (isNurse) {
                 usernameColor = '#066619';

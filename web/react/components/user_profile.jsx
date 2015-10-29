@@ -54,7 +54,7 @@ export default class UserProfile extends React.Component {
     }
     render() {
 
-        let isNurse = this.state.profile.roles.lastIndexOf('nurse') !== -1;
+        let isNurse = this.state.profile && this.state.profile.roles && this.state.profile.roles.lastIndexOf('nurse') !== -1;
         let nurseIndicator = '';
         if (isNurse) {
             nurseIndicator = (
