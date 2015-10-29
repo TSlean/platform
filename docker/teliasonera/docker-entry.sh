@@ -27,6 +27,8 @@ DATADIR="$("mysqld" --verbose --help 2>/dev/null | awk '$1 == "datadir" { print 
 SOCKET=$(get_option  mysqld socket "$DATADIR/mysql.sock")
 PIDFILE=$(get_option mysqld pid-file "/var/run/mysqld/mysqld.pid")
 
+echo "DATADIR: $DATADIR"
+
 if [ ! -d "$DATADIR/mysql" ]; then
 	if [ -z "$MYSQL_ROOT_PASSWORD" -a -z "$MYSQL_ALLOW_EMPTY_PASSWORD" ]; then
 		echo >&2 'error: database is uninitialized and MYSQL_ROOT_PASSWORD not set'

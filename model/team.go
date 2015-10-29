@@ -149,8 +149,8 @@ func (o *Team) IsValid() *AppError {
 		return NewAppError("Team.IsValid", "Invalid allowed domains", "id="+o.Id)
 	}
 
-	if len(o.HoitosuunnitelmaText) > 20000 {
-		return NewAppError("Team.IsValid", "Too long HoitosuunnitelmaText. Maximum is 4000 characters.", "id="+o.Id)
+	if len(o.HoitosuunnitelmaText) > 10000 {
+		return NewAppError("Team.IsValid", "Too long HoitosuunnitelmaText. Maximum is 10000 characters.", "id="+o.Id)
 	}
 
 	if len(o.HoitosuunnitelmaFiles) > 4000 {

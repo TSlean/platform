@@ -67,6 +67,7 @@ func NewSqlStore() Store {
 	}
 
 	schemaVersion := sqlStore.GetCurrentSchemaVersion()
+	l4g.Info("Current schema version \"%v\"", schemaVersion)
 
 	// If the version is already set then we are potentially in an 'upgrade needed' state
 	if schemaVersion != "" {
@@ -96,7 +97,10 @@ func NewSqlStore() Store {
 	sqlStore.webhook = NewSqlWebhookStore(sqlStore)
 	sqlStore.preference = NewSqlPreferenceStore(sqlStore)
 
-	sqlStore.master.CreateTablesIfNotExists()
+	err := sqlStore.master.CreateTablesIfNotExists()
+	if err != nil {
+		l4g.Critical("Error creating database tables: %v", err)
+	}
 
 	sqlStore.team.(*SqlTeamStore).UpgradeSchemaIfNeeded()
 	sqlStore.channel.(*SqlChannelStore).UpgradeSchemaIfNeeded()
@@ -141,7 +145,7 @@ func setupConnection(con_type string, driver string, dataSource string, maxIdle 
 		time.Sleep(time.Second)
 		panic("Failed to open sql connection" + err.Error())
 	}
-
+	l4g.Info("Succesfully opened database connection")
 	l4g.Info("Pinging sql %v database", con_type)
 	err = db.Ping()
 	if err != nil {
@@ -149,6 +153,7 @@ func setupConnection(con_type string, driver string, dataSource string, maxIdle 
 		time.Sleep(time.Second)
 		panic("Failed to open sql connection " + err.Error())
 	}
+	l4g.Info("Ping success")
 
 	db.SetMaxIdleConns(maxIdle)
 	db.SetMaxOpenConns(maxOpen)
