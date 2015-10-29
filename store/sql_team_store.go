@@ -4,7 +4,6 @@
 package store
 
 import (
-	l4g "code.google.com/p/log4go"
 	"github.com/mattermost/platform/model"
 )
 
@@ -31,12 +30,14 @@ func NewSqlTeamStore(sqlStore *SqlStore) TeamStore {
 }
 
 func (s SqlTeamStore) UpgradeSchemaIfNeeded() {
+	/*
 	if s.CreateColumnIfNotExists("Teams", "HoitosuunnitelmaText", "varchar(20000)", "varchar(20000)", "") {
 		l4g.Info("Column HoitosuunnitelmaText added to table Teams")
 	}
 	if s.CreateColumnIfNotExists("Teams", "HoitosuunnitelmaFiles", "varchar(4000)", "varchar(4000)", "") {
 		l4g.Info("Column HoitosuunnitelmaFiles added to table Teams")
 	}
+	*/
 }
 
 func (s SqlTeamStore) CreateIndexesIfNotExists() {

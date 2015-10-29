@@ -4,7 +4,6 @@
 package store
 
 import (
-	l4g "code.google.com/p/log4go"
 	"github.com/mattermost/platform/model"
 	"github.com/mattermost/platform/utils"
 )
@@ -40,6 +39,7 @@ func NewSqlChannelStore(sqlStore *SqlStore) ChannelStore {
 func (s SqlChannelStore) UpgradeSchemaIfNeeded() {
 
 	// BEGIN REMOVE AFTER 1.1.0
+	/*
 	if s.CreateColumnIfNotExists("ChannelMembers", "NotifyProps", "varchar(2000)", "varchar(2000)", "{}") {
 		// populate NotifyProps from existing NotifyLevel field
 
@@ -82,6 +82,7 @@ func (s SqlChannelStore) UpgradeSchemaIfNeeded() {
 
 		s.RemoveColumnIfExists("ChannelMembers", "NotifyLevel")
 	}
+	*/
 	// END REMOVE AFTER 1.1.0
 }
 
