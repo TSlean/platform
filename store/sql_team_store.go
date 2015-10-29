@@ -23,7 +23,7 @@ func NewSqlTeamStore(sqlStore *SqlStore) TeamStore {
 		table.ColMap("Email").SetMaxSize(128)
 		table.ColMap("CompanyName").SetMaxSize(64)
 		table.ColMap("AllowedDomains").SetMaxSize(500)
-		table.ColMap("HoitosuunnitelmaText").SetMaxSize(4000)
+		table.ColMap("HoitosuunnitelmaText").SetMaxSize(20000)
 		table.ColMap("HoitosuunnitelmaFiles").SetMaxSize(4000)
 	}
 
@@ -31,7 +31,7 @@ func NewSqlTeamStore(sqlStore *SqlStore) TeamStore {
 }
 
 func (s SqlTeamStore) UpgradeSchemaIfNeeded() {
-	if s.CreateColumnIfNotExists("Teams", "HoitosuunnitelmaText", "varchar(4000)", "varchar(4000)", "") {
+	if s.CreateColumnIfNotExists("Teams", "HoitosuunnitelmaText", "varchar(20000)", "varchar(20000)", "") {
 		l4g.Info("Column HoitosuunnitelmaText added to table Teams")
 	}
 	if s.CreateColumnIfNotExists("Teams", "HoitosuunnitelmaFiles", "varchar(4000)", "varchar(4000)", "") {
