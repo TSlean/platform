@@ -41,7 +41,7 @@ func (s SqlTeamStore) UpgradeSchemaIfNeeded() {
 }
 
 func (s SqlTeamStore) CreateIndexesIfNotExists() {
-	s.CreateIndexIfNotExists("idx_teams_name", "Teams", "Name")
+	//s.CreateIndexIfNotExists("idx_teams_name", "Teams", "Name")
 }
 
 func (s SqlTeamStore) Save(team *model.Team) StoreChannel {

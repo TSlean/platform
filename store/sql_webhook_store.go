@@ -29,8 +29,8 @@ func (s SqlWebhookStore) UpgradeSchemaIfNeeded() {
 }
 
 func (s SqlWebhookStore) CreateIndexesIfNotExists() {
-	s.CreateIndexIfNotExists("idx_webhook_user_id", "IncomingWebhooks", "UserId")
-	s.CreateIndexIfNotExists("idx_webhook_team_id", "IncomingWebhooks", "TeamId")
+	//s.CreateIndexIfNotExists("idx_webhook_user_id", "IncomingWebhooks", "UserId")
+	//s.CreateIndexIfNotExists("idx_webhook_team_id", "IncomingWebhooks", "TeamId")
 }
 
 func (s SqlWebhookStore) SaveIncoming(webhook *model.IncomingWebhook) StoreChannel {

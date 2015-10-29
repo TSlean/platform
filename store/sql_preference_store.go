@@ -31,9 +31,9 @@ func (s SqlPreferenceStore) UpgradeSchemaIfNeeded() {
 }
 
 func (s SqlPreferenceStore) CreateIndexesIfNotExists() {
-	s.CreateIndexIfNotExists("idx_preferences_user_id", "Preferences", "UserId")
-	s.CreateIndexIfNotExists("idx_preferences_category", "Preferences", "Category")
-	s.CreateIndexIfNotExists("idx_preferences_name", "Preferences", "Name")
+	//s.CreateIndexIfNotExists("idx_preferences_user_id", "Preferences", "UserId")
+	//s.CreateIndexIfNotExists("idx_preferences_category", "Preferences", "Category")
+	//s.CreateIndexIfNotExists("idx_preferences_name", "Preferences", "Name")
 }
 
 func (s SqlPreferenceStore) Save(preferences *model.Preferences) StoreChannel {

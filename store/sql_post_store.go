@@ -40,10 +40,10 @@ func (s SqlPostStore) UpgradeSchemaIfNeeded() {
 }
 
 func (s SqlPostStore) CreateIndexesIfNotExists() {
-	s.CreateIndexIfNotExists("idx_posts_update_at", "Posts", "UpdateAt")
-	s.CreateIndexIfNotExists("idx_posts_create_at", "Posts", "CreateAt")
-	s.CreateIndexIfNotExists("idx_posts_channel_id", "Posts", "ChannelId")
-	s.CreateIndexIfNotExists("idx_posts_root_id", "Posts", "RootId")
+	//s.CreateIndexIfNotExists("idx_posts_update_at", "Posts", "UpdateAt")
+	//s.CreateIndexIfNotExists("idx_posts_create_at", "Posts", "CreateAt")
+	//s.CreateIndexIfNotExists("idx_posts_channel_id", "Posts", "ChannelId")
+	//s.CreateIndexIfNotExists("idx_posts_root_id", "Posts", "RootId")
 
 	s.CreateFullTextIndexIfNotExists("idx_posts_message_txt", "Posts", "Message")
 	s.CreateFullTextIndexIfNotExists("idx_posts_hashtags_txt", "Posts", "Hashtags")

@@ -31,7 +31,7 @@ func (s SqlAuditStore) UpgradeSchemaIfNeeded() {
 }
 
 func (s SqlAuditStore) CreateIndexesIfNotExists() {
-	s.CreateIndexIfNotExists("idx_audits_user_id", "Audits", "UserId")
+	////s.CreateIndexIfNotExists("idx_audits_user_id", "Audits", "UserId")
 }
 
 func (s SqlAuditStore) Save(audit *model.Audit) StoreChannel {

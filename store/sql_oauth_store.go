@@ -47,9 +47,9 @@ func (as SqlOAuthStore) UpgradeSchemaIfNeeded() {
 }
 
 func (as SqlOAuthStore) CreateIndexesIfNotExists() {
-	as.CreateIndexIfNotExists("idx_oauthapps_creator_id", "OAuthApps", "CreatorId")
-	as.CreateIndexIfNotExists("idx_oauthaccessdata_auth_code", "OAuthAccessData", "AuthCode")
-	as.CreateIndexIfNotExists("idx_oauthauthdata_client_id", "OAuthAuthData", "Code")
+	//as.CreateIndexIfNotExists("idx_oauthapps_creator_id", "OAuthApps", "CreatorId")
+	//as.CreateIndexIfNotExists("idx_oauthaccessdata_auth_code", "OAuthAccessData", "AuthCode")
+	//as.CreateIndexIfNotExists("idx_oauthauthdata_client_id", "OAuthAuthData", "Code")
 }
 
 func (as SqlOAuthStore) SaveApp(app *model.OAuthApp) StoreChannel {

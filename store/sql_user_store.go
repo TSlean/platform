@@ -44,8 +44,8 @@ func (us SqlUserStore) UpgradeSchemaIfNeeded() {
 }
 
 func (us SqlUserStore) CreateIndexesIfNotExists() {
-	us.CreateIndexIfNotExists("idx_users_team_id", "Users", "TeamId")
-	us.CreateIndexIfNotExists("idx_users_email", "Users", "Email")
+	//us.CreateIndexIfNotExists("idx_users_team_id", "Users", "TeamId")
+	//us.CreateIndexIfNotExists("idx_users_email", "Users", "Email")
 }
 
 func (us SqlUserStore) Save(user *model.User) StoreChannel {

@@ -87,11 +87,11 @@ func (s SqlChannelStore) UpgradeSchemaIfNeeded() {
 }
 
 func (s SqlChannelStore) CreateIndexesIfNotExists() {
-	s.CreateIndexIfNotExists("idx_channels_team_id", "Channels", "TeamId")
-	s.CreateIndexIfNotExists("idx_channels_name", "Channels", "Name")
+	//s.CreateIndexIfNotExists("idx_channels_team_id", "Channels", "TeamId")
+	//s.CreateIndexIfNotExists("idx_channels_name", "Channels", "Name")
 
-	s.CreateIndexIfNotExists("idx_channelmembers_channel_id", "ChannelMembers", "ChannelId")
-	s.CreateIndexIfNotExists("idx_channelmembers_user_id", "ChannelMembers", "UserId")
+	//s.CreateIndexIfNotExists("idx_channelmembers_channel_id", "ChannelMembers", "ChannelId")
+	//s.CreateIndexIfNotExists("idx_channelmembers_user_id", "ChannelMembers", "UserId")
 }
 
 func (s SqlChannelStore) Save(channel *model.Channel) StoreChannel {
