@@ -482,6 +482,23 @@ export function updateTeamHoitosuunnitelmaText(data, success, error) {
     track('api', 'api_teams_update_hoitosuunnitelma_text');
 }
 
+export function updateTeamHoitosuunnitelmaFiles(data, success, error) {
+    $.ajax({
+        url: '/api/v1/teams/update_hoitosuunnitelma_files',
+        dataType: 'json',
+        contentType: 'application/json',
+        type: 'POST',
+        data: JSON.stringify(data),
+        success,
+        error: function onError(xhr, status, err) {
+            var e = handleError('updateTeamHoitosuunnitelmaFiles', xhr, status, err);
+            error(e);
+        }
+    });
+
+    track('api', 'api_teams_update_hoitosuunnitelma_text');
+}
+
 export function signupTeam(email, success, error) {
     $.ajax({
         url: '/api/v1/teams/signup',
@@ -1041,6 +1058,22 @@ export function uploadProfileImage(imageData, success, error) {
         success,
         error: function onError(xhr, status, err) {
             var e = handleError('uploadProfileImage', xhr, status, err);
+            error(e);
+        }
+    });
+}
+
+export function uploadTeamFile(fileData, success, error) {
+    $.ajax({
+        url: '/api/v1/teams/newfile',
+        type: 'POST',
+        data: fileData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success,
+        error: function onError(xhr, status, err) {
+            var e = handleError('uploadTeamFile', xhr, status, err);
             error(e);
         }
     });

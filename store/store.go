@@ -46,6 +46,7 @@ type TeamStore interface {
 	Update(team *model.Team) StoreChannel
 	UpdateDisplayName(name string, teamId string) StoreChannel
 	UpdateHoitosuunnitelmaText(hoitosuunnitelmaText string, teamId string) StoreChannel
+	UpdateHoitosuunnitelmaFiles(hoitosuunnitelmaFiles string, teamId string) StoreChannel
 	Get(id string) StoreChannel
 	GetByName(name string) StoreChannel
 	GetTeamsForEmail(domain string) StoreChannel

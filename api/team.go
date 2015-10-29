@@ -32,10 +32,71 @@ func InitTeam(r *mux.Router) {
 	sr.Handle("/invite_members", ApiUserRequired(inviteMembers)).Methods("POST")
 	sr.Handle("/update_name", ApiUserRequired(updateTeamDisplayName)).Methods("POST")
 	sr.Handle("/update_hoitosuunnitelma_text", ApiUserRequired(updateHoitosuunnitelmaText)).Methods("POST")
+	sr.Handle("/update_hoitosuunnitelma_files", ApiUserRequired(updateHoitosuunnitelmaFiles)).Methods("POST")
 	sr.Handle("/me", ApiUserRequired(getMyTeam)).Methods("GET")
+
+	sr.Handle("/newfile", ApiUserRequired(uploadTeamFile)).Methods("POST")
+
 	// These should be moved to the global admain console
 	sr.Handle("/import_team", ApiUserRequired(importTeam)).Methods("POST")
 	sr.Handle("/export_team", ApiUserRequired(exportTeam)).Methods("GET")
+}
+
+func uploadTeamFile(c *Context, w http.ResponseWriter, r *http.Request) {
+	if len(utils.Cfg.FileSettings.DriverName) == 0 {
+		c.Err = model.NewAppError("uploadFile", "Unable to upload file. File storage is not configured.", "")
+		c.Err.StatusCode = http.StatusNotImplemented
+		return
+	}
+
+	if err := r.ParseMultipartForm(10000000); err != nil {
+		c.Err = model.NewAppError("uploadFile", "Could not parse multipart form", "")
+		return
+	}
+
+	m := r.MultipartForm
+
+	fileArray, ok := m.File["file"]
+	if !ok {
+		c.Err = model.NewAppError("uploadFile", "No file under 'file' in request", "")
+		c.Err.StatusCode = http.StatusBadRequest
+		return
+	}
+
+	if len(fileArray) <= 0 {
+		c.Err = model.NewAppError("uploadFile", "Empty array under 'file' in request", "")
+		c.Err.StatusCode = http.StatusBadRequest
+		return
+	}
+
+	fileData := fileArray[0]
+
+	file, err := fileData.Open()
+	defer file.Close()
+	if err != nil {
+		c.Err = model.NewAppError("uploadFile", "Could not open file", err.Error())
+		return
+	}
+
+	teamId := c.Session.TeamId
+	path := "teams/" + teamId + "/" + fileData.Filename
+
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(file)
+
+	if err := writeFile(buf.Bytes(), path); err != nil {
+		c.Err = model.NewAppError("uploadFile", "Couldn't upload file", "")
+		return
+	}
+
+	l4g.Info("File \"%v\" was written for team \"%v\"", path, teamId)
+
+	//Srv.Store.User().UpdateLastPictureUpdate(c.Session.UserId)
+
+	c.LogAudit("")
+
+	// write something as the response since jQuery expects a json response
+	w.Write([]byte(fmt.Sprintf("{\"filepath\":\"%v\", \"team_id\":\"%v\"}", path, teamId)))
 }
 
 func signupTeam(c *Context, w http.ResponseWriter, r *http.Request) {
@@ -608,6 +669,38 @@ func updateHoitosuunnitelmaText(c *Context, w http.ResponseWriter, r *http.Reque
 	}
 
 	if result := <-Srv.Store.Team().UpdateHoitosuunnitelmaText(new_hoitosuunnitelma_text, c.Session.TeamId); result.Err != nil {
+		c.Err = result.Err
+		return
+	}
+
+	w.Write([]byte(model.MapToJson(props)))
+}
+
+func updateHoitosuunnitelmaFiles(c *Context, w http.ResponseWriter, r *http.Request) {
+
+	props := model.MapFromJson(r.Body)
+
+	new_hoitosuunnitelma_files := props["new_hoitosuunnitelma_files"]
+
+	teamId := props["team_id"]
+	if len(teamId) > 0 && len(teamId) != 26 {
+		c.SetInvalidParam("updateHoitosuunnitelmaFiles", "team_id")
+		return
+	} else if len(teamId) == 0 {
+		teamId = c.Session.TeamId
+	}
+
+	if !c.HasPermissionsToTeam(teamId, "updateHoitosuunnitelmaFiles") {
+		return
+	}
+
+	if !c.IsTeamAdmin() {
+		c.Err = model.NewAppError("updateHoitosuunnitelmaFiles", "You do not have the appropriate permissions", "userId="+c.Session.UserId)
+		c.Err.StatusCode = http.StatusForbidden
+		return
+	}
+
+	if result := <-Srv.Store.Team().UpdateHoitosuunnitelmaFiles(new_hoitosuunnitelma_files, c.Session.TeamId); result.Err != nil {
 		c.Err = result.Err
 		return
 	}

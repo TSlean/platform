@@ -162,6 +162,25 @@ func (s SqlTeamStore) UpdateHoitosuunnitelmaText(hoitosuunnitelmaText string, te
 	return storeChannel
 }
 
+func (s SqlTeamStore) UpdateHoitosuunnitelmaFiles(hoitosuunnitelmaFiles string, teamId string) StoreChannel {
+
+	storeChannel := make(StoreChannel)
+
+	go func() {
+		result := StoreResult{}
+		if _, err := s.GetMaster().Exec("UPDATE Teams SET HoitosuunnitelmaFiles = :HoitosuunnitelmaFiles WHERE Id = :Id", map[string]interface{}{"HoitosuunnitelmaFiles": hoitosuunnitelmaFiles, "Id": teamId}); err != nil {
+			result.Err = model.NewAppError("SqlTeamStore.UpdateHoitosuunnitelmaFiles", "We couldn't update the hoitosuunnitelma files", "team_id="+teamId)
+		} else {
+			result.Data = teamId
+		}
+
+		storeChannel <- result
+		close(storeChannel)
+	}()
+
+	return storeChannel
+}
+
 func (s SqlTeamStore) Get(id string) StoreChannel {
 	storeChannel := make(StoreChannel)
 

@@ -61,6 +61,7 @@ func InitFile(r *mux.Router) {
 	sr := r.PathPrefix("/files").Subrouter()
 	sr.Handle("/upload", ApiUserRequired(uploadFile)).Methods("POST")
 	sr.Handle("/get/{channel_id:[A-Za-z0-9]+}/{user_id:[A-Za-z0-9]+}/{filename:([A-Za-z0-9]+/)?.+(\\.[A-Za-z0-9]{3,})?}", ApiAppHandler(getFile)).Methods("GET")
+	sr.Handle("/get/{team_id:[A-Za-z0-9]+}/{filename:([A-Za-z0-9]+/)?.+(\\.[A-Za-z0-9]{3,})?}", ApiAppHandler(getTeamFile)).Methods("GET")
 	sr.Handle("/get_info/{channel_id:[A-Za-z0-9]+}/{user_id:[A-Za-z0-9]+}/{filename:([A-Za-z0-9]+/)?.+(\\.[A-Za-z0-9]{3,})?}", ApiAppHandler(getFileInfo)).Methods("GET")
 	sr.Handle("/get_public_link", ApiUserRequired(getPublicLink)).Methods("POST")
 	sr.Handle("/get_export", ApiUserRequired(getExport)).Methods("GET")
@@ -395,6 +396,64 @@ func getFile(c *Context, w http.ResponseWriter, r *http.Request) {
 	} else if !c.HasPermissionsToChannel(cchan, "getFile") {
 		return
 	}
+
+	f := <-fileData
+
+	if f == nil {
+		c.Err = model.NewAppError("getFile", "Could not find file.", "path="+path)
+		c.Err.StatusCode = http.StatusNotFound
+		return
+	}
+
+	w.Header().Set("Cache-Control", "max-age=2592000, public")
+	w.Header().Set("Content-Length", strconv.Itoa(len(f)))
+	w.Header().Del("Content-Type") // Content-Type will be set automatically by the http writer
+
+	// attach extra headers to trigger a download on IE, Edge, and Safari
+	ua := user_agent.New(r.UserAgent())
+	bname, _ := ua.Browser()
+
+	if bname == "Edge" || bname == "Internet Explorer" || bname == "Safari" {
+		// trim off anything before the final / so we just get the file's name
+		parts := strings.Split(filename, "/")
+
+		w.Header().Set("Content-Type", "application/octet-stream")
+		w.Header().Set("Content-Disposition", "attachment;filename=\""+parts[len(parts)-1]+"\"")
+	}
+
+	w.Write(f)
+}
+
+func getTeamFile(c *Context, w http.ResponseWriter, r *http.Request) {
+	if len(utils.Cfg.FileSettings.DriverName) == 0 {
+		c.Err = model.NewAppError("uploadFile", "Unable to get file. Image storage is not configured.", "")
+		c.Err.StatusCode = http.StatusNotImplemented
+		return
+	}
+
+	params := mux.Vars(r)
+
+	teamId := params["team_id"]
+	if len(teamId) != 26 {
+		c.SetInvalidParam("getTeamFile", "team_id")
+		return
+	}
+
+	filename := params["filename"]
+	if len(filename) == 0 {
+		c.SetInvalidParam("getTeamFile", "filename")
+		return
+	}
+
+	path := ""
+	if len(teamId) == 26 {
+		path = "teams/" + teamId + "/" + filename
+	} else {
+		path = "teams/" + c.Session.TeamId + "/" + filename
+	}
+
+	fileData := make(chan []byte)
+	asyncGetFile(path, fileData)
 
 	f := <-fileData
 

@@ -544,7 +544,7 @@ export default class Sidebar extends React.Component {
                 <ul className='nav nav-pills nav-stacked'>
                     <li onClick={showHoitosuunnitelmaModal}>
                         <h4>
-                            {'Hoitosuunnitelma'}
+                            {'Hoito- ja palvelusuunnitelma'}
                         </h4>
                     </li>
                 </ul>
