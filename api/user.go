@@ -39,7 +39,7 @@ func InitUser(r *mux.Router) {
 	sr.Handle("/update_roles", ApiUserRequired(updateRoles)).Methods("POST")
 	sr.Handle("/update_active", ApiUserRequired(updateActive)).Methods("POST")
 	sr.Handle("/update_notify", ApiUserRequired(updateUserNotify)).Methods("POST")
-	sr.Handle("/newpassword", ApiUserRequired(updatePassword)).Methods("POST")
+	sr.Handle("/newpassword", ApiUserRequired(updatePasswordForAllTeams)).Methods("POST")
 	sr.Handle("/send_password_reset", ApiAppHandler(sendPasswordReset)).Methods("POST")
 	sr.Handle("/reset_password", ApiAppHandler(resetPassword)).Methods("POST")
 	sr.Handle("/login", ApiAppHandler(login)).Methods("POST")
@@ -986,6 +986,7 @@ func updateUser(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+/*
 func updatePassword(c *Context, w http.ResponseWriter, r *http.Request) {
 	c.LogAudit("attempted")
 
@@ -1062,6 +1063,97 @@ func updatePassword(c *Context, w http.ResponseWriter, r *http.Request) {
 		data["user_id"] = uresult.Data.(string)
 		w.Write([]byte(model.MapToJson(data)))
 	}
+}
+*/
+
+func updatePasswordForAllTeams(c *Context, w http.ResponseWriter, r *http.Request) {
+	c.LogAudit("attempted")
+
+	props := model.MapFromJson(r.Body)
+	userId := props["user_id"]
+	if len(userId) != 26 {
+		c.SetInvalidParam("updatePassword", "user_id")
+		return
+	}
+
+	currentPassword := props["current_password"]
+	if len(currentPassword) <= 0 {
+		c.SetInvalidParam("updatePassword", "current_password")
+		return
+	}
+
+	newPassword := props["new_password"]
+	if len(newPassword) < 5 {
+		c.SetInvalidParam("updatePassword", "new_password")
+		return
+	}
+
+	if userId != c.Session.UserId {
+		c.Err = model.NewAppError("updatePassword", "Update password failed because context user_id did not match props user_id", "")
+		c.Err.StatusCode = http.StatusForbidden
+		return
+	}
+
+	var result store.StoreResult
+
+	if result = <-Srv.Store.User().Get(userId); result.Err != nil {
+		c.Err = result.Err
+		return
+	}
+
+	if result.Data == nil {
+		c.Err = model.NewAppError("updatePassword", "Update password failed because we couldn't find a valid account", "")
+		c.Err.StatusCode = http.StatusBadRequest
+		return
+	}
+
+	currentUser := result.Data.(*model.User)
+
+	l4g.Info("User with email %v is changing the password for all their teams", currentUser.Email)
+
+	if !model.ComparePassword(currentUser.Password, currentPassword) {
+		c.Err = model.NewAppError("updatePassword", "\"Nykyinen salasana\" on väärin. Tarkista että Caps Lock ei ole päällä ja yritä uudestaan.", "")
+		c.Err.StatusCode = http.StatusForbidden
+		return
+	}
+
+	// Find all users with same email
+	if results := <-Srv.Store.User().GetAllUsersByEmail(currentUser.Email); results.Err != nil {
+		c.Err = results.Err
+		return
+	} else {
+		users := results.Data.(map[string]*model.User)
+		for _, user := range users {
+			// This shouldn't happen, but let's check just in case
+			if user.AuthData != "" {
+				c.LogAudit("failed - tried to update user password who was logged in through oauth")
+				c.Err = model.NewAppError("updatePassword", "Update password failed because the user is logged in through an OAuth service", "auth_service="+user.AuthService)
+				c.Err.StatusCode = http.StatusForbidden
+				return
+			}
+			if uresult := <-Srv.Store.User().UpdatePassword(user.Id, model.HashPassword(newPassword)); uresult.Err != nil {
+				c.Err = model.NewAppError("updatePassword", "Update password failed", uresult.Err.Error())
+				c.Err.StatusCode = http.StatusForbidden
+				return
+			}
+			l4g.Info("Succesfully changed password for user %v (%v)", user.Id, user.Email)
+		}
+	}
+
+	tchan := Srv.Store.Team().Get(currentUser.TeamId)
+
+	c.LogAudit("completed")
+
+	if tresult := <-tchan; tresult.Err != nil {
+		l4g.Error(tresult.Err.Message)
+	} else {
+		team := tresult.Data.(*model.Team)
+		fireAndForgetPasswordChangeEmail(currentUser.Email, team.DisplayName, c.GetTeamURLFromTeam(team), c.GetSiteURL(), "using the settings menu")
+	}
+
+	data := make(map[string]string)
+	data["user_id"] = currentUser.Id
+	w.Write([]byte(model.MapToJson(data)))
 }
 
 func updateRoles(c *Context, w http.ResponseWriter, r *http.Request) {

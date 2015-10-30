@@ -178,7 +178,7 @@ export default class Post extends React.Component {
         }
 
         let postBackgroundColor = 'transparent';
-        let isNurse = userProfile.roles.lastIndexOf('nurse') !== -1;
+        let isNurse = userProfile && userProfile.roles && userProfile.roles.lastIndexOf('nurse') !== -1;
         if (isNurse) {
             postBackgroundColor = '#DCF5E1';
         }
