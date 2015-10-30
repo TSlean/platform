@@ -161,11 +161,11 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 		} else {
 			channel = result.Data.(*model.Channel)
 			if channel.Type == model.CHANNEL_DIRECT {
-				bodyText = "You have one new message."
-				subjectText = "New Direct Message"
+				bodyText = "Sinulle on uusi viesti."
+				subjectText = "Uusi yksityisviesti"
 			} else {
-				bodyText = "You have one new mention."
-				subjectText = "New Mention"
+				bodyText = "Palvelussa on uusi viesti."
+				subjectText = "Uusi viesti"
 				if channel.DisplayName == "Town Square" {
 					channelName = "Viestivihko"
 				} else {
@@ -254,9 +254,11 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 					}
 
 					// Add @all to keywords if user has them turned on
-					if profile.NotifyProps["all"] == "true" {
-						keywordMap["@all"] = append(keywordMap["@all"], profile.Id)
-					}
+					//if profile.NotifyProps["all"] == "true" {
+					//	keywordMap["@all"] = append(keywordMap["@all"], profile.Id)
+					//}
+					// Let's force notifications always even if user is not mentioned
+					keywordMap["@all"] = append(keywordMap["@all"], profile.Id)
 
 					// Add @channel to keywords if user has them turned on
 					if profile.NotifyProps["channel"] == "true" {
