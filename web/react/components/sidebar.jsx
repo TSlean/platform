@@ -509,6 +509,11 @@ export default class Sidebar extends React.Component {
             channelNameColor = channel.color;
         }
 
+        let channelBackground;
+        if (channel.name === 'town-square') {
+            channelBackground = '#a9d18e';
+        }
+
         return (
             <li
                 key={channel.name}
@@ -519,6 +524,7 @@ export default class Sidebar extends React.Component {
                     className={rowClass}
                     href={href}
                     onClick={handleClick}
+                    style={{backgroundColor: channelBackground}}
                 >
                     {status}
                     <span style={{color: channelNameColor}}>
@@ -543,7 +549,7 @@ export default class Sidebar extends React.Component {
             <div>
                 <ul className='nav nav-pills nav-stacked'>
                     <li onClick={showHoitosuunnitelmaModal}>
-                        <h4>
+                        <h4 style={{backgroundColor: '#bdd7ee'}}>
                             {'Hoito- ja palvelusuunnitelma'}
                         </h4>
                     </li>
@@ -717,7 +723,7 @@ export default class Sidebar extends React.Component {
                         </li>
                         {privateChannelItems}
                     </ul>
-                    <ul className='nav nav-pills nav-stacked'>
+                    <ul className='nav nav-pills nav-stacked direct-messages'>
                         <li><h4>{'Yksityisviestit'}</h4></li>
                         {directMessageItems}
                         {directMessageMore}

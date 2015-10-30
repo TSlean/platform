@@ -72,6 +72,10 @@
         bottom: 10px;
     }
 
+    .nav-pills.direct-messages li > a {
+        background-color: #fbe5d6;
+    }
+
     .nav {
         &.nav-stacked {
             > li+li {
@@ -125,6 +129,7 @@
                 }
                 &.unread-title {
                     font-weight: 600;
+                    background-color: #f8cbad;
                 }
             }
             &.active {
