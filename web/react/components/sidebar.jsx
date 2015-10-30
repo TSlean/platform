@@ -99,8 +99,9 @@ export default class Sidebar extends React.Component {
             }
 
             let isNurse = teammate.roles && teammate.roles.lastIndexOf('nurse') !== -1;
+            let isPhysiotherapist = teammate.roles && teammate.roles.lastIndexOf('physiotherapist') !== -1;
             let usernameColor = '#062366';
-            if (isNurse) {
+            if (isNurse || isPhysiotherapist) {
                 usernameColor = '#066619';
             }
 

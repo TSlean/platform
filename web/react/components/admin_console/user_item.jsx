@@ -10,6 +10,7 @@ export default class UserItem extends React.Component {
 
         this.handleMakeMember = this.handleMakeMember.bind(this);
         this.handleMakeNurse = this.handleMakeNurse.bind(this);
+        this.handleMakePhysiotherapist = this.handleMakePhysiotherapist.bind(this);
         this.handleMakeActive = this.handleMakeActive.bind(this);
         this.handleMakeNotActive = this.handleMakeNotActive.bind(this);
         this.handleMakeAdmin = this.handleMakeAdmin.bind(this);
@@ -41,6 +42,23 @@ export default class UserItem extends React.Component {
         const data = {
             user_id: this.props.user.id,
             new_roles: 'nurse'
+        };
+
+        Client.updateRoles(data,
+            () => {
+                this.props.refreshProfiles();
+            },
+            (err) => {
+                this.setState({serverError: err.message});
+            }
+        );
+    }
+
+    handleMakePhysiotherapist(e) {
+        e.preventDefault();
+        const data = {
+            user_id: this.props.user.id,
+            new_roles: 'physiotherapist'
         };
 
         Client.updateRoles(data,
@@ -142,6 +160,7 @@ export default class UserItem extends React.Component {
 
         let showMakeMember = user.roles !== '';
         let showMakeNurse = user.roles.lastIndexOf('nurse') === -1;
+        let showMakePhysiotherapist = user.roles.lastIndexOf('physiotherapist') === -1;
         let showMakeAdmin = user.roles.lastIndexOf('admin') === -1 || user.roles === 'system_admin';
         let showMakeSystemAdmin = user.roles.lastIndexOf('system_admin') === -1;
         let showMakeActive = false;
@@ -151,6 +170,7 @@ export default class UserItem extends React.Component {
             currentRoles = 'Inactive';
             showMakeMember = false;
             showMakeNurse = false;
+            showMakePhysiotherapist = false;
             showMakeAdmin = false;
             showMakeSystemAdmin = false;
             showMakeActive = true;
@@ -217,6 +237,21 @@ export default class UserItem extends React.Component {
             );
         }
 
+        let makePhysiotherapist = null;
+        if (showMakePhysiotherapist) {
+            makePhysiotherapist = (
+                <li role='presentation'>
+                    <a
+                        role='menuitem'
+                        href='#'
+                        onClick={this.handleMakePhysiotherapist}
+                    >
+                        {'Make Physiotherapist'}
+                    </a>
+                </li>
+            );
+        }
+
         let makeActive = null;
         if (showMakeActive) {
             makeActive = (
@@ -277,6 +312,7 @@ export default class UserItem extends React.Component {
                         {makeAdmin}
                         {makeMember}
                         {makeNurse}
+                        {makePhysiotherapist}
                         {makeActive}
                         {makeNotActive}
                         {makeSystemAdmin}

@@ -55,16 +55,18 @@ export default class UserProfile extends React.Component {
     render() {
 
         let isNurse = this.state.profile && this.state.profile.roles && this.state.profile.roles.lastIndexOf('nurse') !== -1;
+        let isPhysiotherapist = this.state.profile && this.state.profile.roles && this.state.profile.roles.lastIndexOf('physiotherapist') !== -1;
         let nurseIndicator = '';
-        if (isNurse) {
+        if (isNurse || isPhysiotherapist) {
+            let userTitle = isNurse ? 'hoitaja' : 'fysioterapeutti';
             nurseIndicator = (
-                <span className='nurse-indicator'> (hoitaja)</span>
+                <span className='nurse-indicator'> ({userTitle})</span>
             );
         }
 
         let usernameColor = '#062366';
 
-        if (isNurse) {
+        if (isNurse || isPhysiotherapist) {
             usernameColor = '#066619';
         }
 
