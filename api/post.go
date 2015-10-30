@@ -449,10 +449,11 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 
 					smsServiceUrl := utils.Cfg.SmsSettings.Url
 					senderId := utils.Cfg.SmsSettings.SenderId
-					postMessage := model.ClearMentionTags(post.Message)
+					//postMessage := model.ClearMentionTags(post.Message)
 					smsMaxLength := 160
 					var smsMessage string
-					smsMessage = fmt.Sprintf("%v:%v:%v", teamDisplayName, senderName, postMessage)
+					//smsMessage = fmt.Sprintf("%v:%v:%v", teamDisplayName, senderName, postMessage)
+					smsMessage = "Sinulle on tullut uusi viesti Sonera HomeCare -palveluun."
 					if len(smsMessage) > smsMaxLength {
 						smsMessage = fmt.Sprintf("%v%v", smsMessage[0:smsMaxLength-4], "...")
 					}
