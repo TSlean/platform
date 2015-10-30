@@ -231,7 +231,9 @@ export default class NavbarDropdown extends React.Component {
                                 href='#'
                                 onClick={this.handleLogoutClick}
                             >
-                                {'Kirjaudu ulos'}
+                                <strong>
+                                    {'Kirjaudu ulos'}
+                                </strong>
                             </a>
                         </li>
                         {adminDivider}

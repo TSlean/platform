@@ -124,12 +124,6 @@ export default class SidebarRightMenu extends React.Component {
                         {consoleLink}
                         <li>
                             <a
-                                href='#'
-                                onClick={this.handleLogoutClick}
-                            ><i className='glyphicon glyphicon-log-out'></i>Kirjaudu ulos</a></li>
-                        <li className='divider'></li>
-                        <li>
-                            <a
                                 target='_blank'
                                 href='/static/help/configure_links.html'
                             ><i className='glyphicon glyphicon-question-sign'></i>Ohjeet</a></li>
@@ -138,6 +132,16 @@ export default class SidebarRightMenu extends React.Component {
                                 target='_blank'
                                 href='/static/help/configure_links.html'
                             ><i className='glyphicon glyphicon-earphone'></i>Ilmoita ongelmasta</a></li>
+                        <li>
+                            <a
+                                href='#'
+                                onClick={this.handleLogoutClick}
+                                style={{fontSize: '1.25em'}}
+                            ><i className='glyphicon glyphicon-log-out'></i>
+                                <strong>Kirjaudu ulos</strong>
+                            </a></li>
+                        <li className='divider'></li>
+
                     </ul>
                 </div>
             </div>
