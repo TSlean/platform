@@ -116,10 +116,10 @@ export default class DeletePostModal extends React.Component {
                     >
                         <span aria-hidden='true'>&times;</span>
                     </button>
-                    <h4 className='modal-title'>Vahvista viestin {this.state.title} poisto</h4>
+                    <h4 className='modal-title'>Vahvista viestin poisto</h4>
                   </div>
                   <div className='modal-body'>
-                    Oletko varma että haluat poistaa viestin {this.state.title.toLowerCase()}?
+                    Oletko varma että haluat poistaa viestin?
                     <br/>
                     <br/>
                     {commentWarning}
