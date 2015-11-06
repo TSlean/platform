@@ -319,7 +319,7 @@ func signupUserComplete(c *api.Context, w http.ResponseWriter, r *http.Request) 
 
 func logout(c *api.Context, w http.ResponseWriter, r *http.Request) {
 	api.Logout(c, w, r)
-	http.Redirect(w, r, c.GetTeamURL(), http.StatusFound)
+	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func getChannel(c *api.Context, w http.ResponseWriter, r *http.Request) {
