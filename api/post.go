@@ -247,18 +247,15 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 							keywordMap[k] = append(keywordMap[strings.ToLower(k)], profile.Id)
 						}
 					}
-
 					// If turned on, add the user's case sensitive first name
 					if profile.NotifyProps["first_name"] == "true" {
 						keywordMap[profile.FirstName] = append(keywordMap[profile.FirstName], profile.Id)
 					}
 
 					// Add @all to keywords if user has them turned on
-					//if profile.NotifyProps["all"] == "true" {
-					//	keywordMap["@all"] = append(keywordMap["@all"], profile.Id)
-					//}
-					// Let's force notifications always even if user is not mentioned
-					keywordMap["@all"] = append(keywordMap["@all"], profile.Id)
+					if profile.NotifyProps["all"] == "true" {
+						keywordMap["@all"] = append(keywordMap["@all"], profile.Id)
+					}
 
 					// Add @channel to keywords if user has them turned on
 					if profile.NotifyProps["channel"] == "true" {
@@ -298,26 +295,29 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 								toEmailMap[userId] = false
 							}
 						}
-						for _, userId := range userIds {
-							if post.UserId == userId {
-								continue
-							}
-							sendSMS := true
-							if _, ok := profileMap[userId].NotifyProps["phone"]; ok && profileMap[userId].NotifyProps["phone"] == "false" {
-								sendSMS = false
-							}
-							if _, ok := profileMap[userId].Props["phone"]; !ok || len(profileMap[userId].Props["phone"]) == 0 {
-								if sendSMS {
-									l4g.Warn("No phone number defined for user %v. Cannot send SMS notification.", profileMap[userId].Username)
-								}
-								sendSMS = false
-							}
-							if sendSMS && (profileMap[userId].IsAway() || profileMap[userId].IsOffline()) {
-								toSmsMap[userId] = true
-							} else {
-								toSmsMap[userId] = false
-							}
+					}
+				}
+
+				for _, profile := range profileMap {
+					userId := profile.Id
+					// Always send SMS reminder
+					if post.UserId == userId {
+						continue
+					}
+					sendSMS := true
+					if _, ok := profileMap[userId].NotifyProps["phone"]; ok && profileMap[userId].NotifyProps["phone"] == "false" {
+						sendSMS = false
+					}
+					if _, ok := profileMap[userId].Props["phone"]; !ok || len(profileMap[userId].Props["phone"]) == 0 {
+						if sendSMS {
+							l4g.Warn("No phone number defined for user %v. Cannot send SMS notification.", profileMap[userId].Username)
 						}
+						sendSMS = false
+					}
+					if sendSMS && (profileMap[userId].IsAway() || profileMap[userId].IsOffline()) {
+						toSmsMap[userId] = true
+					} else {
+						toSmsMap[userId] = false
 					}
 				}
 
@@ -432,56 +432,56 @@ func fireAndForgetNotifications(post *model.Post, teamId, siteURL string) {
 						}
 					}
 				}
-				for id, doSend := range toSmsMap {
+			}
+			for id, doSend := range toSmsMap {
 
-					if !doSend {
-						continue
-					}
-
-					// skip if inactive
-					if profileMap[id].DeleteAt > 0 {
-						continue
-					}
-
-					// siteURL,teamDisplayName, channelName, senderName
-					// message: model.ClearMentionTags(post.Message)
-					// url: teamURL + "/channels/" + channel.Name
-					phoneNumber := profileMap[id].Props["phone"]
-					username := profileMap[id].Username
-
-					smsServiceUrl := utils.Cfg.SmsSettings.Url
-					senderId := utils.Cfg.SmsSettings.SenderId
-					//postMessage := model.ClearMentionTags(post.Message)
-					smsMaxLength := 160
-					var smsMessage string
-					//smsMessage = fmt.Sprintf("%v:%v:%v", teamDisplayName, senderName, postMessage)
-					smsMessage = "Sinulle on tullut uusi viesti Sonera HomeCare -palveluun."
-					if len(smsMessage) > smsMaxLength {
-						smsMessage = fmt.Sprintf("%v%v", smsMessage[0:smsMaxLength-4], "...")
-					}
-					urlEncodedSmsMessage := url.QueryEscape(smsMessage)
-
-					smsRequestUrl := fmt.Sprintf("%v/send?from=$%v&to=%v&msg=%v", smsServiceUrl, senderId, phoneNumber, urlEncodedSmsMessage)
-
-					// Fix umlauts
-					// The Unicode encoding doesn't work with the SMS service so
-					// we need to convert special characters to ASCII codes
-					smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%A5", "%E5", -1) // å
-					smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%A4", "%E4", -1) // ä
-					smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%B6", "%F6", -1) // ö
-					smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%85", "%C5", -1) // Å
-					smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%84", "%C4", -1) // Ä
-					smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%96", "%D6", -1) // Ö
-
-					l4g.Debug("SMS request URL: %v", smsRequestUrl)
-					_, err := http.Get(smsRequestUrl)
-					if err != nil {
-						l4g.Error("Failed to send SMS. (number: %v, user: %v)", phoneNumber, username)
-					} else {
-						l4g.Info("SMS notification sent succesfully. Recipient: %v, %v", username, phoneNumber)
-					}
-
+				if !doSend {
+					continue
 				}
+
+				// skip if inactive
+				if profileMap[id].DeleteAt > 0 {
+					continue
+				}
+
+				// siteURL,teamDisplayName, channelName, senderName
+				// message: model.ClearMentionTags(post.Message)
+				// url: teamURL + "/channels/" + channel.Name
+				phoneNumber := profileMap[id].Props["phone"]
+				username := profileMap[id].Username
+
+				smsServiceUrl := utils.Cfg.SmsSettings.Url
+				senderId := utils.Cfg.SmsSettings.SenderId
+				//postMessage := model.ClearMentionTags(post.Message)
+				smsMaxLength := 160
+				var smsMessage string
+				//smsMessage = fmt.Sprintf("%v:%v:%v", teamDisplayName, senderName, postMessage)
+				smsMessage = "Sinulle on tullut uusi viesti Sonera HomeCare -palveluun."
+				if len(smsMessage) > smsMaxLength {
+					smsMessage = fmt.Sprintf("%v%v", smsMessage[0:smsMaxLength-4], "...")
+				}
+				urlEncodedSmsMessage := url.QueryEscape(smsMessage)
+
+				smsRequestUrl := fmt.Sprintf("%v/send?from=$%v&to=%v&msg=%v", smsServiceUrl, senderId, phoneNumber, urlEncodedSmsMessage)
+
+				// Fix umlauts
+				// The Unicode encoding doesn't work with the SMS service so
+				// we need to convert special characters to ASCII codes
+				smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%A5", "%E5", -1) // å
+				smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%A4", "%E4", -1) // ä
+				smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%B6", "%F6", -1) // ö
+				smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%85", "%C5", -1) // Å
+				smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%84", "%C4", -1) // Ä
+				smsRequestUrl = strings.Replace(smsRequestUrl, "%C3%96", "%D6", -1) // Ö
+
+				l4g.Debug("SMS request URL: %v", smsRequestUrl)
+				_, err := http.Get(smsRequestUrl)
+				if err != nil {
+					l4g.Error("Failed to send SMS. (number: %v, user: %v)", phoneNumber, username)
+				} else {
+					l4g.Info("SMS notification sent succesfully. Recipient: %v, %v", username, phoneNumber)
+				}
+
 			}
 		}
 
