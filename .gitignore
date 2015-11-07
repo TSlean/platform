@@ -58,3 +58,4 @@ api/data/*
 tags
 
 private/*
+*build.sh

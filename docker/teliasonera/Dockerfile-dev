@@ -36,7 +36,7 @@ WORKDIR /mattermost
 # Copy over files
 COPY /dist/mattermost.tar.gz /
 RUN tar -zxvf /mattermost.tar.gz --strip-components=1 && rm /mattermost.tar.gz
-ADD /private/config_docker.json /
+ADD /private/config_docker.dev.json /config_docker.json
 ADD /docker/teliasonera/docker-entry.sh /
 
 RUN chmod +x /docker-entry.sh
