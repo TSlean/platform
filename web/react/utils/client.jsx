@@ -232,6 +232,14 @@ export function logout() {
     track('api', 'api_users_logout');
     var currentTeamUrl = TeamStore.getCurrentTeamUrl();
     BrowserStore.clear();
+    // For some reason the currentTeamUrl is sometimes null. Let's fallback to
+    // parsing the url from window.location
+    if (currentTeamUrl == null) {
+        var matches = window.location.href.match(/(.+)\/channels\/.+/);
+        if (matches !== null && matches.length > 1) {
+            currentTeamUrl = matches[1];
+        }
+    }
     window.location.href = currentTeamUrl + '/logout';
 }
 
