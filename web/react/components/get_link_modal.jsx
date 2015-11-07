@@ -61,7 +61,7 @@ export default class GetLinkModal extends React.Component {
 
         var copyLinkConfirm = null;
         if (this.state.copiedLink) {
-            copyLinkConfirm = <p className='alert alert-success copy-link-confirm'><i className='fa fa-check'></i> Link copied to clipboard.</p>;
+            copyLinkConfirm = <p className='alert alert-success copy-link-confirm'><i className='fa fa-check'></i> Linkki kopioitu leikepöydälle.</p>;
         }
 
         if (currentUser != null) {
