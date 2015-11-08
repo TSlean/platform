@@ -153,6 +153,10 @@ export function getChannel(id) {
                 return;
             }
 
+            if (data && data.channel && data.channel.name === 'off-topic') {
+                return;
+            }
+
             if (data && data.channel && data.channel.display_name === "Town Square") {
                 data.channel.display_name = "Viestivihko";
             }
