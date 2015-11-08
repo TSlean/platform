@@ -22,10 +22,11 @@ export default class Navbar extends React.Component {
         this.handleLeave = this.handleLeave.bind(this);
         this.createCollapseButtons = this.createCollapseButtons.bind(this);
         this.createDropdown = this.createDropdown.bind(this);
+        this.getTeamCount = this.getTeamCount.bind(this);
 
         this.state = this.getStateFromStores();
     }
-    getStateFromStores() {
+    getTeamCount() {
         let teams = UserStore.getTeams();
         let teamCount = 0;
         for(let teamId in teams) {
@@ -33,12 +34,14 @@ export default class Navbar extends React.Component {
                 teamCount++;
             }
         }
-
+        return teamCount;
+    }
+    getStateFromStores() {
         return {
             channel: ChannelStore.getCurrent(),
             member: ChannelStore.getCurrentMember(),
             users: ChannelStore.getCurrentExtraInfo().members,
-            teamCount
+            teamCount: this.getTeamCount()
         };
     }
     componentDidMount() {
@@ -51,6 +54,14 @@ export default class Navbar extends React.Component {
                 $('.info-popover').popover('hide');
             }
         });
+
+        // Sometimes "Takaisin asiakaslistaan" link is not showing. Let's try to
+        // update the teamCount value to see if it helps.
+        setTimeout(() => {
+            this.setState({
+                teamCount: this.getTeamCount()
+            })
+        }, 2000);
     }
     componentWillUnmount() {
         ChannelStore.removeChangeListener(this.onChange);

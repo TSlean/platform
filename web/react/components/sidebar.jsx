@@ -37,6 +37,7 @@ export default class Sidebar extends React.Component {
         this.handleLeaveDirectChannel = this.handleLeaveDirectChannel.bind(this);
         this.createChannelElement = this.createChannelElement.bind(this);
         this.hoitosuunnitelma = this.hoitosuunnitelma.bind(this);
+        this.getTeamCount = this.getTeamCount.bind(this);
 
         this.isLeaving = new Map();
 
@@ -47,6 +48,16 @@ export default class Sidebar extends React.Component {
         state.showHoitosuunnitelmaModal = false;
 
         this.state = state;
+    }
+    getTeamCount() {
+        let teams = UserStore.getTeams();
+        let teamCount = 0;
+        for(let teamId in teams) {
+            if (teams.hasOwnProperty(teamId)) {
+                teamCount++;
+            }
+        }
+        return teamCount;
     }
     getStateFromStores() {
         const members = ChannelStore.getAllMembers();
@@ -131,14 +142,6 @@ export default class Sidebar extends React.Component {
         visibleDirectChannels.sort(this.sortChannelsByDisplayName);
         hiddenDirectChannels.sort(this.sortChannelsByDisplayName);
 
-        let teams = UserStore.getTeams();
-        let teamCount = 0;
-        for(let teamId in teams) {
-            if (teams.hasOwnProperty(teamId)) {
-                teamCount++;
-            }
-        }
-
         return {
             activeId: currentId,
             channels: ChannelStore.getAll(),
@@ -146,7 +149,7 @@ export default class Sidebar extends React.Component {
             visibleDirectChannels,
             hiddenDirectChannels,
             currentUser: currentUser,
-            teamCount
+            teamCount: this.getTeamCount()
         };
     }
 
@@ -166,6 +169,14 @@ export default class Sidebar extends React.Component {
         this.updateUnreadIndicators();
 
         $(window).on('resize', this.onResize);
+
+        // Sometimes "Takaisin asiakaslistaan" link is not showing. Let's try to
+        // update the teamCount value to see if it helps.
+        setTimeout(() => {
+            this.setState({
+                teamCount: this.getTeamCount()
+            })
+        }, 2000);
     }
     shouldComponentUpdate(nextProps, nextState) {
         if (!Utils.areStatesEqual(nextProps, this.props)) {
