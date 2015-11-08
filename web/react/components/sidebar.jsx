@@ -663,12 +663,12 @@ export default class Sidebar extends React.Component {
                 <UnreadChannelIndicator
                     show={this.state.showTopUnread}
                     extraClass='nav-pills__unread-indicator-top'
-                    text={'Unread post(s) above'}
+                    text={'Ylempänä uusia viestejä'}
                 />
                 <UnreadChannelIndicator
                     show={this.state.showBottomUnread}
                     extraClass='nav-pills__unread-indicator-bottom'
-                    text={'Unread post(s) below'}
+                    text={'Alempana uusia viestejä'}
                 />
 
                 <div
