@@ -11,6 +11,9 @@ function getCountsStateFromStores() {
 
     channels.forEach(function setChannelInfo(channel) {
         var channelMember = members[channel.id];
+        count += channel.total_msg_count - channelMember.msg_count;
+
+        /*
         if (channel.type === 'D') {
             count += channel.total_msg_count - channelMember.msg_count;
         } else if (channelMember.mention_count > 0) {
@@ -18,6 +21,7 @@ function getCountsStateFromStores() {
         } else if (channelMember.notify_props.mark_unread !== 'mention' && channel.total_msg_count - channelMember.msg_count > 0) {
             count += 1;
         }
+        */
     });
 
     return {count: count};

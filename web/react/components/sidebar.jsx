@@ -396,6 +396,13 @@ export default class Sidebar extends React.Component {
 
         var badge = null;
         if (channelMember) {
+            msgCount = channel.total_msg_count - channelMember.msg_count;
+            if (msgCount > 0) {
+                badge = <span className='badge pull-right small'>{msgCount}</span>;
+                this.badgesActive = true;
+            }
+
+            /*
             if (channel.type === 'D') {
                 // direct message channels show badges for any number of unread posts
                 msgCount = channel.total_msg_count - channelMember.msg_count;
@@ -408,6 +415,7 @@ export default class Sidebar extends React.Component {
                 badge = <span className='badge pull-right small'>{channelMember.mention_count}</span>;
                 this.badgesActive = true;
             }
+            */
         } else if (this.state.loadingDMChannel === index && channel.type === 'D') {
             badge = (
                 <img
