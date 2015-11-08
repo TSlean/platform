@@ -100,7 +100,7 @@ export default class MoreChannels extends React.Component {
                                             onClick={self.handleJoin.bind(self, channel, index)}
                                             className='btn btn-primary'
                                         >
-                                            Join
+                                            Liity
                                         </button>
                                         );
                                 }

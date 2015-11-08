@@ -392,9 +392,9 @@ func JoinChannel(c *Context, channelId string, role string) {
 				c.Err = err
 				return
 			}
-			PostUserAddRemoveMessageAndForget(c, channel.Id, fmt.Sprintf(`User %v has joined this channel.`, user.Username))
+			PostUserAddRemoveMessageAndForget(c, channel.Id, fmt.Sprintf(`%v liittyi keskusteluun.`, user.Username))
 		} else {
-			c.Err = model.NewAppError("join", "You do not have the appropriate permissions", "")
+			c.Err = model.NewAppError("join", "Sinulla ei ole vaadittavia käyttöoikeuksia", "")
 			c.Err.StatusCode = http.StatusForbidden
 			return
 		}
@@ -416,17 +416,17 @@ func PostUserAddRemoveMessageAndForget(c *Context, channelId string, message str
 
 func AddUserToChannel(user *model.User, channel *model.Channel) (*model.ChannelMember, *model.AppError) {
 	if channel.DeleteAt > 0 {
-		return nil, model.NewAppError("AddUserToChannel", "The channel has been archived or deleted", "")
+		return nil, model.NewAppError("AddUserToChannel", "Keskustelu on arkistoitu tai poistettu.", "")
 	}
 
 	if channel.Type != model.CHANNEL_OPEN && channel.Type != model.CHANNEL_PRIVATE {
-		return nil, model.NewAppError("AddUserToChannel", "Can not add user to this channel type", "")
+		return nil, model.NewAppError("AddUserToChannel", "Tähän keskusteluun ei voi lisätä käyttäjiä", "")
 	}
 
 	newMember := &model.ChannelMember{ChannelId: channel.Id, UserId: user.Id, NotifyProps: model.GetDefaultChannelNotifyProps()}
 	if cmresult := <-Srv.Store.Channel().SaveMember(newMember); cmresult.Err != nil {
 		l4g.Error("Failed to add member user_id=%v channel_id=%v err=%v", user.Id, channel.Id, cmresult.Err)
-		return nil, model.NewAppError("AddUserToChannel", "Failed to add user to channel", "")
+		return nil, model.NewAppError("AddUserToChannel", "Käyttäjän lisääminen keskusteluun epäonnistui", "")
 	}
 
 	go func() {
@@ -510,7 +510,7 @@ func leave(c *Context, w http.ResponseWriter, r *http.Request) {
 
 		RemoveUserFromChannel(c.Session.UserId, c.Session.UserId, channel)
 
-		PostUserAddRemoveMessageAndForget(c, channel.Id, fmt.Sprintf(`%v has left the channel.`, user.Username))
+		PostUserAddRemoveMessageAndForget(c, channel.Id, fmt.Sprintf(`%v poistui keskustelusta.`, user.Username))
 
 		result := make(map[string]string)
 		result["id"] = channel.Id
