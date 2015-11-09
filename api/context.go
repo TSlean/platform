@@ -330,6 +330,7 @@ func (c *Context) RemoveSessionCookie(w http.ResponseWriter, r *http.Request) {
 
 	http.SetCookie(w, cookie)
 
+	/*
 	multiToken := ""
 	if oldMultiCookie, err := r.Cookie(model.MULTI_SESSION_TOKEN); err == nil {
 		multiToken = oldMultiCookie.Value
@@ -340,6 +341,16 @@ func (c *Context) RemoveSessionCookie(w http.ResponseWriter, r *http.Request) {
 		Value:    strings.TrimSpace(strings.Replace(multiToken, c.Session.Token, "", -1)),
 		Path:     "/",
 		MaxAge:   model.SESSION_TIME_WEB_IN_SECS,
+		HttpOnly: true,
+	}
+	*/
+
+	// Clear all sessions
+	multiCookie := &http.Cookie{
+		Name:     model.MULTI_SESSION_TOKEN,
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -1,
 		HttpOnly: true,
 	}
 
