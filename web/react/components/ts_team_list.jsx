@@ -1,10 +1,11 @@
 const UserStore = require('../stores/user_store.jsx');
-
 const ChannelStore = require('../stores/channel_store.jsx');
+const BrowserStore = require('../stores/browser_store.jsx');
 
 
 var AsyncClient = require('../utils/async_client.jsx');
 var Client = require('../utils/client.jsx');
+
 
 export default class TsTeamList extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ export default class TsTeamList extends React.Component {
         this.getStateFromStores = this.getStateFromStores.bind(this);
         this.onTeamsChange = this.onTeamsChange.bind(this);
         this.updateUnreadMessages = this.updateUnreadMessages.bind(this);
+        this.logout = this.logout.bind(this);
 
         this.state = this.getStateFromStores();
     }
@@ -48,6 +50,18 @@ export default class TsTeamList extends React.Component {
             (err) => {
             }
         );
+    }
+
+    logout(e) {
+        e.preventDefault();
+        BrowserStore.clear();
+
+        if (this.state.teams.length > 0) {
+            let teamName = this.state.teams[0].name;
+            let baseUrl = window.location.href.replace(/\/$/, '');
+            let logoutUrl = baseUrl + '/' + teamName + '/logout';
+            window.location.href = logoutUrl;
+        }
     }
 
     componentDidMount() {
@@ -129,7 +143,16 @@ export default class TsTeamList extends React.Component {
                 <div>
                     {teamButtons}
                 </div>
-
+                <div
+                    className="btn-group"
+                    style={{marginTop: '4em', marginBottom: '1em'}}>
+                        <button
+                            className='btn btn-danger'
+                            onClick={this.logout}
+                        >
+                            Kirjaudu ulos
+                        </button>
+                </div>
             </div>
         );
     }
