@@ -367,10 +367,10 @@ func Login(c *Context, w http.ResponseWriter, r *http.Request, user *model.User,
 	maxAge := model.SESSION_TIME_WEB_IN_SECS
 
 	if len(deviceId) > 0 {
-		session.SetExpireInDays(model.SESSION_TIME_MOBILE_IN_DAYS)
+		session.SetExpireInSeconds(model.SESSION_TIME_MOBILE_IN_SECS)
 		maxAge = model.SESSION_TIME_MOBILE_IN_SECS
 	} else {
-		session.SetExpireInDays(model.SESSION_TIME_WEB_IN_DAYS)
+		session.SetExpireInSeconds(model.SESSION_TIME_WEB_IN_SECS)
 	}
 
 	ua := user_agent.New(r.UserAgent())

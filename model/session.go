@@ -11,10 +11,10 @@ import (
 const (
 	SESSION_TOKEN               = "MMSID"
 	MULTI_SESSION_TOKEN         = "MMSIDMU"
-	SESSION_TIME_WEB_IN_DAYS    = 30
-	SESSION_TIME_WEB_IN_SECS    = 60 * 60 * 24 * SESSION_TIME_WEB_IN_DAYS
-	SESSION_TIME_MOBILE_IN_DAYS = 30
-	SESSION_TIME_MOBILE_IN_SECS = 60 * 60 * 24 * SESSION_TIME_MOBILE_IN_DAYS
+	// SESSION_TIME_WEB_IN_DAYS    = 30
+	SESSION_TIME_WEB_IN_SECS    = 60 * 60 * 2
+	// SESSION_TIME_MOBILE_IN_DAYS = 30
+	SESSION_TIME_MOBILE_IN_SECS = 60 * 60 * 2
 	SESSION_TIME_OAUTH_IN_DAYS  = 365
 	SESSION_TIME_OAUTH_IN_SECS  = 60 * 60 * 24 * SESSION_TIME_OAUTH_IN_DAYS
 	SESSION_CACHE_IN_SECS       = 60 * 10
@@ -92,6 +92,10 @@ func (me *Session) IsExpired() bool {
 
 func (me *Session) SetExpireInDays(days int64) {
 	me.ExpiresAt = GetMillis() + (1000 * 60 * 60 * 24 * days)
+}
+
+func (me *Session) SetExpireInSeconds(seconds int64) {
+	me.ExpiresAt = GetMillis() + (1000 * seconds)
 }
 
 func (me *Session) AddProp(key string, value string) {
