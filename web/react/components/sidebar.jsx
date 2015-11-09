@@ -504,7 +504,7 @@ export default class Sidebar extends React.Component {
         }
 
         let closeButton = null;
-        const removeTooltip = <Tooltip>{'Remove from list'}</Tooltip>;
+        const removeTooltip = <Tooltip>{'Poista listasta'}</Tooltip>;
         if (handleClose && !badge) {
             closeButton = (
                 <OverlayTrigger

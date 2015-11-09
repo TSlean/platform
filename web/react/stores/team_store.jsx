@@ -84,6 +84,12 @@ class TeamStoreClass extends EventEmitter {
     getCurrentTeamUrl() {
         if (this.getCurrent()) {
             return getWindowLocationOrigin() + '/' + this.getCurrent().name;
+        } else {
+            var matches = window.location.href.match(/(.+)\/channels\/.+/);
+            if (matches !== null && matches.length > 1) {
+                let currentTeamUrl = matches[1];
+                return currentTeamUrl;
+            }
         }
         return null;
     }
