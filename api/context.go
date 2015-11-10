@@ -316,6 +316,13 @@ func (c *Context) IsTeamAdmin() bool {
 	return false
 }
 
+func (c *Context) IsNurseOrPhysiotherapist() bool {
+	if model.IsInRole(c.Session.Roles, model.ROLE_NURSE) || model.IsInRole(c.Session.Roles, model.ROLE_PHYSIOTHERAPIST) {
+		return true
+	}
+	return false
+}
+
 func (c *Context) RemoveSessionCookie(w http.ResponseWriter, r *http.Request) {
 
 	sessionCache.Remove(c.Session.Token)

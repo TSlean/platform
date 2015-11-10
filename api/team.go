@@ -662,8 +662,8 @@ func updateHoitosuunnitelmaText(c *Context, w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if !c.IsTeamAdmin() {
-		c.Err = model.NewAppError("updateHoitosuunnitelmaText", "You do not have the appropriate permissions", "userId="+c.Session.UserId)
+	if !(c.IsTeamAdmin() || c.IsNurseOrPhysiotherapist()) {
+		c.Err = model.NewAppError("updateHoitosuunnitelmaText", "Sinulla ei ole tarvittavia käyttöoikeuksia. Vain hoitajat ja ylläpitäjät voivat päivittää hoito- ja palvelusuunnitelmaa.", "userId="+c.Session.UserId)
 		c.Err.StatusCode = http.StatusForbidden
 		return
 	}
@@ -694,8 +694,8 @@ func updateHoitosuunnitelmaFiles(c *Context, w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	if !c.IsTeamAdmin() {
-		c.Err = model.NewAppError("updateHoitosuunnitelmaFiles", "You do not have the appropriate permissions", "userId="+c.Session.UserId)
+	if !(c.IsTeamAdmin() || c.IsNurseOrPhysiotherapist()) {
+		c.Err = model.NewAppError("updateHoitosuunnitelmaFiles", "Sinulla ei ole tarvittavia käyttöoikeuksia. Vain hoitajat ja ylläpitäjät voivat päivittää hoito- ja palvelusuunnitelmaa.", "userId="+c.Session.UserId)
 		c.Err.StatusCode = http.StatusForbidden
 		return
 	}
