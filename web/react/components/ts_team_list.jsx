@@ -13,6 +13,7 @@ export default class TsTeamList extends React.Component {
 
         this.getStateFromStores = this.getStateFromStores.bind(this);
         this.onTeamsChange = this.onTeamsChange.bind(this);
+        this.onTeamClick = this.onTeamClick.bind(this);
         this.updateUnreadMessages = this.updateUnreadMessages.bind(this);
         this.logout = this.logout.bind(this);
 
@@ -33,7 +34,6 @@ export default class TsTeamList extends React.Component {
                 for (var i = 0; i < teams.length; i++) {
                     let team = teams[i];
                     team.unread_count = 0;
-                    let channelsInTeam = [];
                     for (var j = 0; j < channels.length; j++) {
                         let channel = channels[j];
                         if (channel.team_id === team.id) {
@@ -41,6 +41,7 @@ export default class TsTeamList extends React.Component {
                             if (channelMember) {
                                 let unreadInChannel = channel.total_msg_count - channelMember.msg_count;
                                 team.unread_count += unreadInChannel;
+                                team.user_id = channelMember.user_id;
                             }
                         }
                     }
@@ -83,6 +84,10 @@ export default class TsTeamList extends React.Component {
         this.setState(state);
     }
 
+    onTeamClick(team) {
+        UserStore.setCurrentId(team.user_id);
+    }
+
     getStateFromStores() {
         let teams = [];
         let teamsObject = UserStore.getTeams();
@@ -104,13 +109,8 @@ export default class TsTeamList extends React.Component {
             }
         });
 
-        const members = ChannelStore.getAllMembers();
-        const channels = ChannelStore.getAll();
-
         return {
-            teams,
-            members,
-            channels
+            teams
         };
     }
 
@@ -128,7 +128,11 @@ export default class TsTeamList extends React.Component {
             }
             const teamButton = (
                 <p key={team.name}>
-                    <a className="btn btn-primary btn-lg" href={'/' + team.name}>
+                    <a
+                        className="btn btn-primary btn-lg"
+                        href={'/' + team.name}
+                        onClick={this.onTeamClick.bind(this, team)}
+                    >
                         {team.display_name} {unread}
                         &nbsp;<span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     </a>

@@ -5,6 +5,7 @@ var Utils = require('../utils/utils.jsx');
 var client = require('../utils/client.jsx');
 var UserStore = require('../stores/user_store.jsx');
 var TeamStore = require('../stores/team_store.jsx');
+var BrowserStore = require('../stores/browser_store.jsx');
 
 var AboutBuildModal = require('./about_build_modal.jsx');
 
@@ -174,7 +175,12 @@ export default class NavbarDropdown extends React.Component {
 
             this.state.teams.forEach((team) => {
                 if (team.name !== this.props.teamName) {
-                    teams.push(<li key={team.name}><a href={Utils.getWindowLocationOrigin() + '/' + team.name}>{'Siirry '} <strong>{team.display_name}</strong></a></li>);
+                    teams.push(
+                        <li key={team.name}>
+                            <a
+                                href={Utils.getWindowLocationOrigin() + '/' + team.name}
+                                onClick={() => BrowserStore.clear()}
+                            >{'Siirry '} <strong>{team.display_name}</strong></a></li>);
                 }
             });
         }
