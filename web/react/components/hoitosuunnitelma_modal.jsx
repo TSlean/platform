@@ -38,6 +38,10 @@ export default class HoitosuunnitelmaModal extends React.Component {
 
     doHide() {
         this.props.onModalDismissed();
+        this.setState({
+            edit: false,
+            serverError: null
+        });
     }
 
     edit() {
@@ -63,7 +67,8 @@ export default class HoitosuunnitelmaModal extends React.Component {
                     team: team
                 });
                 this.setState({
-                    edit: false
+                    edit: false,
+                    serverError: null
                 });
             },
             (err) => {
