@@ -125,13 +125,8 @@ export default class SidebarRightMenu extends React.Component {
                         <li>
                             <a
                                 target='_blank'
-                                href='/static/help/configure_links.html'
-                            ><i className='glyphicon glyphicon-question-sign'></i>Ohjeet</a></li>
-                        <li>
-                            <a
-                                target='_blank'
-                                href='/static/help/configure_links.html'
-                            ><i className='glyphicon glyphicon-earphone'></i>Ilmoita ongelmasta</a></li>
+                                href='/static/help/Sonera_HomeCare_ohjeet.pdf'
+                            ><i className='glyphicon glyphicon-question-sign'></i>Ohjeet (pdf)</a></li>
                         <li>
                             <a
                                 href='#'

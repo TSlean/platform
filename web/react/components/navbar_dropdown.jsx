@@ -251,17 +251,9 @@ export default class NavbarDropdown extends React.Component {
                         <li>
                             <a
                                 target='_blank'
-                                href='/static/help/help.html'
+                                href='/static/help/Sonera_HomeCare_ohjeet.pdf'
                             >
-                                {'Ohjeet'}
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                target='_blank'
-                                href='/static/help/report_problem.html'
-                            >
-                                {'Ilmoita ongelmasta'}
+                                {'Ohjeet (pdf)'}
                             </a>
                         </li>
                         <li>
