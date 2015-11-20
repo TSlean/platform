@@ -568,7 +568,10 @@ export default class Sidebar extends React.Component {
         return (
             <div>
                 <ul className='nav nav-pills nav-stacked'>
-                    <li onClick={showHoitosuunnitelmaModal}>
+                    <li
+                        onClick={showHoitosuunnitelmaModal}
+                        style={{cursor: 'pointer'}}
+                    >
                         <h4 style={{backgroundColor: '#bdd7ee'}}>
                             {'Hoito- ja palvelusuunnitelma'}
                         </h4>
